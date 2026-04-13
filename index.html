@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toronto Council Cycling Scorecard 2023–2026 (V4)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f2;
+    --surface: #ffffff;
+    --surface2: #f0f0ed;
+    --border: #e0e0da;
+    --yes: #4CAF50;
+    --yes-dim: rgba(76,175,80,0.15);
+    --no: #f44336;
+    --no-dim: rgba(244,67,54,0.15);
+    --absent: #FF9800;
+    --absent-dim: rgba(255,152,0,0.12);
+    --na: #999999;
+    --na-dim: rgba(150,150,150,0.12);
+    --orange: #FF6B00;
+    --text: #1a1a1a;
+    --text-dim: #555555;
+    --text-dimmer: #999999;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 3px solid var(--orange);
+    padding: 40px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .header-left h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: 2px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .header-left h1 span {
+    color: var(--orange);
+  }
+
+  .header-left p {
+    margin-top: 10px;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* FILTERS */
+  .filters {
+    padding: 20px 48px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #fff;
+  }
+
+  /* MAIN GRID */
+  .main {
+    padding: 32px 48px 0;
+  }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+
+  .stat-card .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .stat-card .stat-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* COUNCILLOR CARDS */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: #444;
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    padding: 16px 20px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .card-ward {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dimmer);
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .support-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-align: right;
+  }
+
+  .support-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    text-align: right;
+    margin-top: 2px;
+  }
+
+  /* Support bar */
+  .support-bar-wrap {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .support-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+    gap: 2px;
+  }
+
+  .bar-yes { background: var(--yes); border-radius: 3px 0 0 3px; transition: width 0.4s ease; }
+  .bar-no { background: var(--no); transition: width 0.4s ease; }
+  .bar-absent { background: var(--absent); transition: width 0.4s ease; }
+  .bar-na { background: var(--na); border-radius: 0 3px 3px 0; transition: width 0.4s ease; }
+
+  .bar-counts {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .bar-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bar-count .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+  }
+
+  /* VOTES TABLE */
+  .votes-section {
+    padding: 0 20px 16px;
+  }
+
+  .votes-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    user-select: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    transition: color 0.15s;
+  }
+
+  .votes-toggle:hover { color: var(--text-dim); }
+
+  .toggle-arrow {
+    transition: transform 0.2s;
+    font-size: 10px;
+  }
+
+  .votes-toggle.open .toggle-arrow { transform: rotate(90deg); }
+
+  .votes-list {
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .votes-list.open { display: flex; }
+
+  .vote-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
+    border-radius: 4px;
+    gap: 8px;
+  }
+
+  .vote-row:hover { background: var(--surface2); }
+
+  .vote-name {
+    font-size: 11px;
+    color: var(--text-dim);
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .vote-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .chip-yes { background: var(--yes-dim); color: var(--yes); }
+  .chip-no { background: var(--no-dim); color: var(--no); }
+  .chip-absent { background: var(--absent-dim); color: var(--absent); }
+  .chip-na { background: var(--na-dim); color: var(--na); }
+
+  /* Grade stripe on left */
+  .card.grade-a { border-left: 4px solid #1B5E20; }
+  .card.grade-b { border-left: 4px solid #7CB342; }
+  .card.grade-c { border-left: 4px solid #E65100; }
+  .card.grade-d { border-left: 4px solid #E65100; }
+  .card.grade-f { border-left: 4px solid #C62828; }
+  .card.grade-na { border-left: 4px solid var(--na); }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .header, .filters, .main { padding-left: 20px; padding-right: 20px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>TORONTO COUNCIL<br><span>CYCLING SCORECARD</span></h1>
+    <p>How every active member of Toronto City Council has voted on cycling in the current council term to date (2023–2026).</p>
+  </div>
+  <div class="header-right">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yes)"></div> Yes</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--no)"></div> No</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--absent)"></div> Absent</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--na)"></div> Not in office</div>
+    </div>
+    <div style="font-size:11px;color:var(--text-dimmer);font-family:'DM Mono',monospace;margin-top:4px;">Support = YES ÷ (YES + NO) · Participation = (YES + NO) ÷ possible votes</div>
+    <a href="cycling_scorecard_grid.html" style="display:inline-block;margin-top:10px;font-family:'DM Mono',monospace;font-size:12px;color:var(--orange);text-decoration:none;border:1px solid var(--orange);padding:6px 14px;border-radius:4px;transition:all 0.15s;" onmouseover="this.style.background='#FF6B00';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color='var(--orange)'">View Full Grid →</a>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+  <button class="filter-btn" onclick="filterCards('champion', this)">100% Support</button>
+  <button class="filter-btn" onclick="filterCards('supporter', this)">90–99% Support</button>
+  <button class="filter-btn" onclick="filterCards('mixed', this)">60–89% Support</button>
+  <button class="filter-btn" onclick="filterCards('opposed', this)">Below 60% Support</button>
+  <button class="filter-btn" onclick="filterCards('absent', this)">High Absences (5+)</button>
+  <button class="filter-btn" onclick="filterCards('no_absences', this)">No Absences</button>
+  <button class="filter-btn" onclick="filterCards('limited', this)">Less Than 2 Years in Office</button>
+</div>
+
+<div class="main">
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-number" style="color:#1B5E20" id="stat-champions">—</div>
+      <div class="stat-label">100% Support</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:#7CB342" id="stat-supporters">—</div>
+      <div class="stat-label">90–99% Support</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:#E65100" id="stat-mixed">—</div>
+      <div class="stat-label">60–89% Support</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:#C62828" id="stat-opposed">—</div>
+      <div class="stat-label">Below 60% Support</div>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const votes = [
+  { name: "Ravine Strategy Loop Trail", id: "2026.IE27.7" },
+  { name: "West Scarborough Rail Trail", id: "2025.MM35.26" },
+  { name: "Transform Yonge Cycling Gains", id: "2025.MM35.10" },
+  { name: "Parkside Drive Protected Lanes", id: "2024.IE17.4" },
+  { name: "Keep Bloor West Bike Lanes*", id: "2024.IE14.4 M1" },
+  { name: "Cycling Network Plan Q3 2024", id: "2024.IE14.4" },
+  { name: "Bloor West in Major City Routes*", id: "2024.IE14.3 M3d" },
+  { name: "No Local Veto on Bike Lanes*", id: "2024.IE14.3 M3b" },
+  { name: "Expedite Etobicoke Greenway", id: "2024.IE14.3 M3a" },
+  { name: "3-Year Cycling Network Plan", id: "2024.IE14.3" },
+  { name: "Eglinton Complete Street", id: "2024.IE13.2" },
+  { name: "License Courier Businesses", id: "2024.IE13.1 R12" },
+  { name: "Approve Portland Bike Lanes", id: "2024.IE12.4 P1f" },
+  { name: "Cycling Network Plan Q2 2024", id: "2024.IE12.4" },
+  { name: "Safe & Passable Bike Lanes", id: "2024.IE10.3" },
+  { name: "Cycling Network Plan Q1 2024", id: "2024.IE10.2" },
+  { name: "Keep Bloor W Lanes (No Restore)*", id: "2024.CC23.1 M3" },
+  { name: "Oppose Bill 212 Bike Lane Removal", id: "2024.CC23.1 M1" },
+  { name: "Cycling Network Plan Q3 2023", id: "2023.IE4.3" },
+  { name: "High Park Cycling Strategy", id: "2023.IE3.7" },
+  { name: "Extend College Bike Lanes", id: "2023.IE2.7" },
+  { name: "Bike Share Discounted Rates", id: "2023.IE2.6" },
+  { name: "Make Yonge Lanes Permanent*", id: "2023.IE1.4 M2a" },
+  { name: "ActiveTO Network Expansion", id: "2023.IE1.4" }
+];
+
+const councillors = [
+  { name: "Chow", ward: "Mayor", yes: 17, no: 0, absent: 1, na: 6,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
+  { name: "Crisanti", ward: "Ward 1", yes: 10, no: 11, absent: 3, na: 0,
+    record: ["YES","YES","ABSENT","NO","NO","NO","NO","NO","YES","NO","ABSENT","YES","NO","YES","YES","YES","NO","NO","ABSENT","NO","YES","YES","NO","YES"] },
+  { name: "Holyday", ward: "Ward 2", yes: 6, no: 18, absent: 0, na: 0,
+    record: ["YES","YES","NO","NO","NO","NO","NO","NO","YES","NO","NO","YES","NO","YES","NO","NO","NO","NO","NO","NO","NO","NO","YES","NO"] },
+  { name: "Morley", ward: "Ward 3", yes: 24, no: 0, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Perks", ward: "Ward 4", yes: 24, no: 0, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Nunziata", ward: "Ward 5", yes: 21, no: 3, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","NO","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES"] },
+  { name: "Pasternak", ward: "Ward 6", yes: 17, no: 6, absent: 1, na: 0,
+    record: ["YES","YES","YES","NO","YES","ABSENT","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","NO","YES","YES","NO","NO"] },
+  { name: "Perruzza", ward: "Ward 7", yes: 18, no: 6, absent: 0, na: 0,
+    record: ["YES","YES","YES","NO","NO","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","NO","YES","YES","NO","YES"] },
+  { name: "Colle", ward: "Ward 8", yes: 21, no: 1, absent: 2, na: 0,
+    record: ["YES","ABSENT","YES","YES","YES","YES","ABSENT","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Bravo", ward: "Ward 9", yes: 23, no: 0, absent: 1, na: 0,
+    record: ["ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Malik", ward: "Ward 10", yes: 23, no: 0, absent: 1, na: 0,
+    record: ["ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Saxe", ward: "Ward 11", yes: 24, no: 0, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Matlow", ward: "Ward 12", yes: 24, no: 0, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Moise", ward: "Ward 13", yes: 22, no: 1, absent: 1, na: 0,
+    record: ["YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Fletcher", ward: "Ward 14", yes: 23, no: 0, absent: 1, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Chernos Lin", ward: "Ward 15", yes: 2, no: 0, absent: 2, na: 20,
+    record: ["YES","ABSENT","ABSENT","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","YES"] },
+  { name: "Burnside", ward: "Ward 16", yes: 18, no: 5, absent: 1, na: 0,
+    record: ["YES","NO","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","NO","NO","YES"] },
+  { name: "Carroll", ward: "Ward 17", yes: 19, no: 0, absent: 5, na: 0,
+    record: ["YES","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","ABSENT","ABSENT","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Cheng", ward: "Ward 18", yes: 19, no: 3, absent: 2, na: 0,
+    record: ["YES","YES","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","ABSENT"] },
+  { name: "Bradford", ward: "Ward 19", yes: 12, no: 7, absent: 5, na: 0,
+    record: ["YES","YES","NO","NO","NO","YES","NO","NO","YES","YES","ABSENT","YES","ABSENT","ABSENT","ABSENT","ABSENT","NO","NO","YES","YES","YES","YES","YES","YES"] },
+  { name: "Kandavel", ward: "Ward 20", yes: 11, no: 0, absent: 7, na: 6,
+    record: ["YES","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","ABSENT","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
+  { name: "Thompson", ward: "Ward 21", yes: 11, no: 3, absent: 10, na: 0,
+    record: ["ABSENT","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","YES","YES","ABSENT","ABSENT","YES","ABSENT","ABSENT","ABSENT","YES","NO","YES","YES","YES","YES","YES","NO","NO"] },
+  { name: "Mantas", ward: "Ward 22", yes: 13, no: 4, absent: 7, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","NO","YES"] },
+  { name: "Myers", ward: "Ward 23", yes: 24, no: 0, absent: 0, na: 0,
+    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Ainslie", ward: "Ward 24", yes: 18, no: 0, absent: 6, na: 0,
+    record: ["YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
+  { name: "Shan", ward: "Ward 25", yes: 3, no: 0, absent: 0, na: 21,
+    record: ["YES","YES","YES","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"] }
+];
+
+function getSupport(c) {
+  if (c.yes + c.no === 0) return null;
+  return Math.round(c.yes / (c.yes + c.no) * 100);
+}
+
+function getGrade(support, absents) {
+  if (support === null) return 'na';
+  if (support === 100) return 'a';
+  if (support >= 90) return 'b';
+  if (support >= 60) return 'c';
+  return 'f';
+}
+
+function getSupportColor(support) {
+  if (support === null) return 'var(--na)';
+  if (support === 100) return '#1B5E20';
+  if (support >= 90) return '#7CB342';
+  if (support >= 60) return '#E65100';
+  return '#C62828';
+}
+
+function renderCard(c) {
+  const support = getSupport(c);
+  const grade = getGrade(support, c.absent);
+  const total = c.yes + c.no + c.absent + c.na;
+  const pYes = (c.yes / total * 100).toFixed(1);
+  const pNo = (c.no / total * 100).toFixed(1);
+  const pAbsent = (c.absent / total * 100).toFixed(1);
+  const pNa = (c.na / total * 100).toFixed(1);
+
+  const voteRows = votes.map((v, i) => {
+    const val = c.record[i];
+    const chipClass = val === 'YES' ? 'chip-yes' : val === 'NO' ? 'chip-no' : val === 'ABSENT' ? 'chip-absent' : 'chip-na';
+    const label = val === 'NA' ? 'N/A' : val;
+    return `<div class="vote-row">
+      <span class="vote-name">${v.name}</span>
+      <span class="vote-chip ${chipClass}">${label}</span>
+    </div>`;
+  }).join('');
+
+  const supportDisplay = support !== null ? support + '%' : 'N/A';
+  const supportColor = getSupportColor(support);
+  const possible = c.yes + c.no + c.absent;
+  const participation = possible > 0 ? Math.round((c.yes + c.no) / possible * 100) : null;
+  const participationDisplay = participation !== null ? participation + '%' : 'N/A';
+
+  const categories = [];
+  if (support === 100) categories.push('champion');
+  if (support !== null && support >= 90 && support < 100) categories.push('supporter');
+  if (support !== null && support >= 60 && support < 90) categories.push('mixed');
+  if (support !== null && support < 60) categories.push('opposed');
+  if (c.absent >= 5) categories.push('absent');
+  if (c.absent === 0) categories.push('no_absences');
+  if (c.na > 6) categories.push('limited');
+  categories.push('all');
+
+  const thinData = c.na > 6;
+
+  return `<div class="card grade-${grade}" data-categories="${categories.join(' ')}">
+    <div class="card-header">
+      <div>
+        <div class="card-name">${c.name}${thinData ? ' <span style="font-size:10px;color:#999;font-family:\'DM Mono\',monospace;font-weight:normal;letter-spacing:0;vertical-align:middle;">limited data</span>' : ''}</div>
+        <div class="card-ward">${c.ward}</div>
+      </div>
+      <div>
+        <div style="text-align:right;">
+          <div style="display:flex;gap:12px;align-items:baseline;justify-content:flex-end;">
+            <div>
+              <div class="support-badge" style="color:${supportColor};font-size:24px;">${supportDisplay}</div>
+              <div class="support-label">Support</div>
+            </div>
+            <div style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:14px;padding-bottom:16px;">·</div>
+            <div>
+              <div class="support-badge" style="color:#5C7AEA;font-size:24px;">${participationDisplay}</div>
+              <div class="support-label">Particip.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="support-bar-wrap">
+      <div class="support-bar">
+        <div class="bar-yes" style="width:${pYes}%"></div>
+        <div class="bar-no" style="width:${pNo}%"></div>
+        <div class="bar-absent" style="width:${pAbsent}%"></div>
+        <div class="bar-na" style="width:${pNa}%"></div>
+      </div>
+      <div class="bar-counts">
+        <span class="bar-count"><div class="dot" style="background:var(--yes)"></div>${c.yes} yes</span>
+        <span class="bar-count"><div class="dot" style="background:var(--no)"></div>${c.no} no</span>
+        <span class="bar-count"><div class="dot" style="background:var(--absent)"></div>${c.absent} absent</span>
+        ${c.na > 0 ? `<span class="bar-count"><div class="dot" style="background:var(--na)"></div>${c.na} n/a</span>` : ''}
+      </div>
+    </div>
+    <div class="votes-section">
+      <button class="votes-toggle" onclick="toggleVotes(this)">
+        <span class="toggle-arrow">▶</span> Individual votes
+      </button>
+      <div class="votes-list">
+        ${voteRows}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleVotes(btn) {
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('open');
+}
+
+function filterCards(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    const cats = card.dataset.categories.split(' ');
+    card.classList.toggle('hidden', !cats.includes(category));
+  });
+}
+
+// Render
+const grid = document.getElementById('grid');
+// Sort: by ward number
+const sorted = [...councillors].sort((a, b) => {
+  // Mayor first, then wards numerically
+  if (a.ward === 'Mayor') return -1;
+  if (b.ward === 'Mayor') return 1;
+  const wa = parseInt(a.ward.replace('Ward ', ''));
+  const wb = parseInt(b.ward.replace('Ward ', ''));
+  return wa - wb;
+});
+grid.innerHTML = sorted.map(renderCard).join('');
+
+// Stats
+const champions = sorted.filter(c => getSupport(c) === 100).length;
+const supporters = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 90 && s < 100; }).length;
+const mixed = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 60 && s < 90; }).length;
+const opposed = sorted.filter(c => { const s = getSupport(c); return s !== null && s < 60; }).length;
+document.getElementById('stat-champions').textContent = champions;
+document.getElementById('stat-supporters').textContent = supporters;
+document.getElementById('stat-mixed').textContent = mixed;
+document.getElementById('stat-opposed').textContent = opposed;
+</script>
+<div style="padding: 20px 48px 32px; font-family: 'DM Mono', monospace; font-size: 11px; color: #999; border-top: 1px solid #e0e0da; margin-top: 8px; line-height: 1.8;">
+  <strong style="color:#555;font-size:11px;">Note:</strong> This scorecard tracks recorded votes on key cycling items, motions, and amendments only. The following items passed without a recorded vote and are not included in any councillor's score:<br>
+  <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
+    <li>Updates on Vision Zero Road Safety Initiatives — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2026.IE27.9 ↗</a></li>
+    <li>Cycling Network Plan — 2025 Q4 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE26.6 ↗</a></li>
+    <li>Cycling Network Plan — 2025 Q2 Infrastructure & Sidewalk Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE23.6 ↗</a></li>
+    <li>Cycling Network Plan — 2025 Q1 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE19.1 ↗</a></li>
+    <li>Cycling Network Plan — 2023 Q2 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2023.IE3.8 ↗</a></li>
+  </ul>
+</div>
+</body>
+</html>
