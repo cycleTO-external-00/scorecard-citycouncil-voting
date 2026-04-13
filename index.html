@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toronto Council Cycling Scorecard 2023–2026 (V4)</title>
+<title>Toronto Council Cycling Scorecard 2022–2026 (V4)</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -160,6 +160,9 @@
     letter-spacing: 1px;
   }
 
+  .stat-card.active {
+    outline: 2px solid var(--orange);
+  }
   .stat-card .stat-label {
     font-size: 12px;
     color: var(--text-dim);
@@ -364,7 +367,7 @@
 <div class="header">
   <div class="header-left">
     <h1>TORONTO COUNCIL<br><span>CYCLING SCORECARD</span></h1>
-    <p>How every active member of Toronto City Council has voted on cycling in the current council term to date (2023–2026).</p>
+    <p>How every active member of Toronto City Council has voted on cycling in the current council term (2022–2026) to date.</p>
   </div>
   <div class="header-right">
     <div class="legend">
@@ -374,7 +377,7 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--na)"></div> Not in office</div>
     </div>
     <div style="font-size:11px;color:var(--text-dimmer);font-family:'DM Mono',monospace;margin-top:4px;">Support = YES ÷ (YES + NO) · Participation = (YES + NO) ÷ possible votes</div>
-    <a href="cycling_scorecard_grid.html" style="display:inline-block;margin-top:10px;font-family:'DM Mono',monospace;font-size:12px;color:var(--orange);text-decoration:none;border:1px solid var(--orange);padding:6px 14px;border-radius:4px;transition:all 0.15s;" onmouseover="this.style.background='#FF6B00';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color='var(--orange)'">View Full Grid →</a>
+    
   </div>
 </div>
 
@@ -392,19 +395,19 @@
 
 <div class="main">
   <div class="stats-bar">
-    <div class="stat-card">
+    <div class="stat-card" id="sc-tier1" onclick="filterByTier('tier1', this)" style="cursor:pointer;">
       <div class="stat-number" style="color:#1B5E20" id="stat-champions">—</div>
-      <div class="stat-label">100% Support</div>
+      <div class="stat-label">100% Support &amp; &gt;90% Participation</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" id="sc-tier2" onclick="filterByTier('tier2', this)" style="cursor:pointer;">
       <div class="stat-number" style="color:#7CB342" id="stat-supporters">—</div>
-      <div class="stat-label">90–99% Support</div>
+      <div class="stat-label">&gt;80% Support</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-number" style="color:#E65100" id="stat-mixed">—</div>
-      <div class="stat-label">60–89% Support</div>
+    <div class="stat-card" id="sc-tier4" onclick="filterByTier('tier4', this)" style="cursor:pointer;">
+      <div class="stat-number" style="color:#FF9800" id="stat-mixed">—</div>
+      <div class="stat-label">60–79% Support</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" id="sc-tier3" onclick="filterByTier('tier3', this)" style="cursor:pointer;">
       <div class="stat-number" style="color:#C62828" id="stat-opposed">—</div>
       <div class="stat-label">Below 60% Support</div>
     </div>
@@ -415,84 +418,84 @@
 
 <script>
 const votes = [
-  { name: "Ravine Strategy Loop Trail", id: "2026.IE27.7" },
-  { name: "West Scarborough Rail Trail", id: "2025.MM35.26" },
-  { name: "Transform Yonge Cycling Gains", id: "2025.MM35.10" },
-  { name: "Parkside Drive Protected Lanes", id: "2024.IE17.4" },
-  { name: "Keep Bloor West Bike Lanes*", id: "2024.IE14.4 M1" },
-  { name: "Cycling Network Plan Q3 2024", id: "2024.IE14.4" },
-  { name: "Bloor West in Major City Routes*", id: "2024.IE14.3 M3d" },
-  { name: "No Local Veto on Bike Lanes*", id: "2024.IE14.3 M3b" },
-  { name: "Expedite Etobicoke Greenway", id: "2024.IE14.3 M3a" },
-  { name: "3-Year Cycling Network Plan", id: "2024.IE14.3" },
-  { name: "Eglinton Complete Street", id: "2024.IE13.2" },
-  { name: "License Courier Businesses", id: "2024.IE13.1 R12" },
-  { name: "Approve Portland Bike Lanes", id: "2024.IE12.4 P1f" },
-  { name: "Cycling Network Plan Q2 2024", id: "2024.IE12.4" },
-  { name: "Safe & Passable Bike Lanes", id: "2024.IE10.3" },
-  { name: "Cycling Network Plan Q1 2024", id: "2024.IE10.2" },
-  { name: "Keep Bloor W Lanes (No Restore)*", id: "2024.CC23.1 M3" },
-  { name: "Oppose Bill 212 Bike Lane Removal", id: "2024.CC23.1 M1" },
-  { name: "Cycling Network Plan Q3 2023", id: "2023.IE4.3" },
-  { name: "High Park Cycling Strategy", id: "2023.IE3.7" },
-  { name: "Extend College Bike Lanes", id: "2023.IE2.7" },
-  { name: "Bike Share Discounted Rates", id: "2023.IE2.6" },
-  { name: "Make Yonge Lanes Permanent*", id: "2023.IE1.4 M2a" },
-  { name: "ActiveTO Network Expansion", id: "2023.IE1.4" }
+  { name: "Ravine Strategy Loop Trail", id: "2026.IE27.7", linkId: "2026.IE27.7" },
+  { name: "West Scarborough Rail Trail", id: "2025.MM35.26", linkId: "2025.MM35.26" },
+  { name: "Transform Yonge Bike Lanes", id: "2025.MM35.10", linkId: "2025.MM35.10" },
+  { name: "Parkside Drive and Bike Lanes", id: "2024.IE17.4", linkId: "2024.IE17.4" },
+  { name: "Keep Bloor West Bike Lanes*", id: "2024.IE14.4 M1", linkId: "2024.IE14.4" },
+  { name: "Cycling Network Plan Q3 2024 Projects", id: "2024.IE14.4", linkId: "2024.IE14.4" },
+  { name: "Do Not Cut Major City-Wide Route Plans*", id: "2024.IE14.3 M3d", linkId: "2024.IE14.3" },
+  { name: "Do Not Prioritize Local Approvals*", id: "2024.IE14.3 M3b", linkId: "2024.IE14.3" },
+  { name: "Expedite Etobicoke Greenway", id: "2024.IE14.3 M3a", linkId: "2024.IE14.3" },
+  { name: "2025-2027 100 km Cycling Network Plan", id: "2024.IE14.3", linkId: "2024.IE14.3" },
+  { name: "Eglinton Complete Street with Bike Lanes", id: "2024.IE13.2", linkId: "2024.IE13.2" },
+  { name: "License Courier Businesses Not Riders", id: "2024.IE13.1 R12", linkId: "2024.IE13.1" },
+  { name: "Portland Bike Lanes", id: "2024.IE12.4 P1f", linkId: "2024.IE12.4" },
+  { name: "Cycling Network Plan Q2 2024 Projects", id: "2024.IE12.4", linkId: "2024.IE12.4" },
+  { name: "Safe & Passable Bike Lanes", id: "2024.IE10.3", linkId: "2024.IE10.3" },
+  { name: "Cycling Network Plan Q1 2024 Projects", id: "2024.IE10.2", linkId: "2024.IE10.2" },
+  { name: "Keep Bloor West Bike Lanes*", id: "2024.CC23.1 M3", linkId: "2024.CC23.1" },
+  { name: "Oppose Provincial Bike Lane Removal", id: "2024.CC23.1 M1", linkId: "2024.CC23.1" },
+  { name: "Cycling Network Plan Q3 2023 Projects", id: "2023.IE4.3", linkId: "2023.IE4.3" },
+  { name: "High Park Movement Strategy", id: "2023.IE3.7", linkId: "2023.IE3.7" },
+  { name: "Extend College Bike Lanes", id: "2023.IE2.7", linkId: "2023.IE2.7" },
+  { name: "Bike Share Discounted Rates", id: "2023.IE2.6", linkId: "2023.IE2.6" },
+  { name: "Make Yonge Bike Lanes Permanent*", id: "2023.IE1.4 M2a", linkId: "2023.IE1.4" },
+  { name: "ActiveTO Yonge and Bayview Bike Lanes", id: "2023.IE1.4", linkId: "2023.IE1.4" }
 ];
 
 const councillors = [
-  { name: "Chow", ward: "Mayor", yes: 17, no: 0, absent: 1, na: 6,
+  { name: "Chow", firstName: "Olivia", ward: "Mayor", wardName: "City of Toronto", byElection: "Jun 2023", yes: 17, no: 0, absent: 1, na: 6,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
-  { name: "Crisanti", ward: "Ward 1", yes: 10, no: 11, absent: 3, na: 0,
+  { name: "Crisanti", firstName: "Vincent", ward: "Ward 1", wardName: "Etobicoke North", yes: 10, no: 11, absent: 3, na: 0,
     record: ["YES","YES","ABSENT","NO","NO","NO","NO","NO","YES","NO","ABSENT","YES","NO","YES","YES","YES","NO","NO","ABSENT","NO","YES","YES","NO","YES"] },
-  { name: "Holyday", ward: "Ward 2", yes: 6, no: 18, absent: 0, na: 0,
+  { name: "Holyday", firstName: "Stephen", ward: "Ward 2", wardName: "Etobicoke Centre", yes: 6, no: 18, absent: 0, na: 0,
     record: ["YES","YES","NO","NO","NO","NO","NO","NO","YES","NO","NO","YES","NO","YES","NO","NO","NO","NO","NO","NO","NO","NO","YES","NO"] },
-  { name: "Morley", ward: "Ward 3", yes: 24, no: 0, absent: 0, na: 0,
+  { name: "Morley", firstName: "Amber", ward: "Ward 3", wardName: "Etobicoke–Lakeshore", yes: 24, no: 0, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Perks", ward: "Ward 4", yes: 24, no: 0, absent: 0, na: 0,
+  { name: "Perks", firstName: "Gord", ward: "Ward 4", wardName: "Parkdale–High Park", yes: 24, no: 0, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Nunziata", ward: "Ward 5", yes: 21, no: 3, absent: 0, na: 0,
+  { name: "Nunziata", firstName: "Frances", ward: "Ward 5", wardName: "York South–Weston", yes: 21, no: 3, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","NO","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES"] },
-  { name: "Pasternak", ward: "Ward 6", yes: 17, no: 6, absent: 1, na: 0,
+  { name: "Pasternak", firstName: "James", ward: "Ward 6", wardName: "York Centre", yes: 17, no: 6, absent: 1, na: 0,
     record: ["YES","YES","YES","NO","YES","ABSENT","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","NO","YES","YES","NO","NO"] },
-  { name: "Perruzza", ward: "Ward 7", yes: 18, no: 6, absent: 0, na: 0,
+  { name: "Perruzza", firstName: "Anthony", ward: "Ward 7", wardName: "Humber River–Black Creek", yes: 18, no: 6, absent: 0, na: 0,
     record: ["YES","YES","YES","NO","NO","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","NO","YES","YES","NO","YES"] },
-  { name: "Colle", ward: "Ward 8", yes: 21, no: 1, absent: 2, na: 0,
+  { name: "Colle", firstName: "Mike", ward: "Ward 8", wardName: "Eglinton–Lawrence", yes: 21, no: 1, absent: 2, na: 0,
     record: ["YES","ABSENT","YES","YES","YES","YES","ABSENT","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Bravo", ward: "Ward 9", yes: 23, no: 0, absent: 1, na: 0,
+  { name: "Bravo", firstName: "Alejandra", ward: "Ward 9", wardName: "Davenport", yes: 23, no: 0, absent: 1, na: 0,
     record: ["ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Malik", ward: "Ward 10", yes: 23, no: 0, absent: 1, na: 0,
+  { name: "Malik", firstName: "Ausma", ward: "Ward 10", wardName: "Spadina–Fort York", yes: 23, no: 0, absent: 1, na: 0,
     record: ["ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Saxe", ward: "Ward 11", yes: 24, no: 0, absent: 0, na: 0,
+  { name: "Saxe", firstName: "Dianne", ward: "Ward 11", wardName: "University–Rosedale", yes: 24, no: 0, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Matlow", ward: "Ward 12", yes: 24, no: 0, absent: 0, na: 0,
+  { name: "Matlow", firstName: "Josh", ward: "Ward 12", wardName: "Toronto–St. Paul's", yes: 24, no: 0, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Moise", ward: "Ward 13", yes: 22, no: 1, absent: 1, na: 0,
+  { name: "Moise", firstName: "Chris", ward: "Ward 13", wardName: "Toronto Centre", yes: 22, no: 1, absent: 1, na: 0,
     record: ["YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Fletcher", ward: "Ward 14", yes: 23, no: 0, absent: 1, na: 0,
+  { name: "Fletcher", firstName: "Paula", ward: "Ward 14", wardName: "Toronto–Danforth", yes: 23, no: 0, absent: 1, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Chernos Lin", ward: "Ward 15", yes: 2, no: 0, absent: 2, na: 20,
-    record: ["YES","ABSENT","ABSENT","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","YES"] },
-  { name: "Burnside", ward: "Ward 16", yes: 18, no: 5, absent: 1, na: 0,
+  { name: "Chernos Lin", firstName: "Rachel", ward: "Ward 15", wardName: "Don Valley West", byElection: "Nov 2024", yes: 2, no: 0, absent: 2, na: 20,
+    record: ["YES","ABSENT","ABSENT","YES","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"] },
+  { name: "Burnside", firstName: "Jon", ward: "Ward 16", wardName: "Don Valley East", yes: 18, no: 5, absent: 1, na: 0,
     record: ["YES","NO","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","NO","NO","YES"] },
-  { name: "Carroll", ward: "Ward 17", yes: 19, no: 0, absent: 5, na: 0,
+  { name: "Carroll", firstName: "Shelley", ward: "Ward 17", wardName: "Don Valley North", yes: 19, no: 0, absent: 5, na: 0,
     record: ["YES","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","ABSENT","ABSENT","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Cheng", ward: "Ward 18", yes: 19, no: 3, absent: 2, na: 0,
-    record: ["YES","YES","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","ABSENT"] },
-  { name: "Bradford", ward: "Ward 19", yes: 12, no: 7, absent: 5, na: 0,
+  { name: "Cheng", firstName: "Lily", ward: "Ward 18", wardName: "Scarborough Southwest", yes: 18, no: 4, absent: 2, na: 0,
+    record: ["YES","YES","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","ABSENT","ABSENT","YES","YES"] },
+  { name: "Bradford", firstName: "Brad", ward: "Ward 19", wardName: "Beaches–East York", yes: 12, no: 7, absent: 5, na: 0,
     record: ["YES","YES","NO","NO","NO","YES","NO","NO","YES","YES","ABSENT","YES","ABSENT","ABSENT","ABSENT","ABSENT","NO","NO","YES","YES","YES","YES","YES","YES"] },
-  { name: "Kandavel", ward: "Ward 20", yes: 11, no: 0, absent: 7, na: 6,
-    record: ["YES","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","ABSENT","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
-  { name: "Thompson", ward: "Ward 21", yes: 11, no: 3, absent: 10, na: 0,
-    record: ["ABSENT","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","YES","YES","ABSENT","ABSENT","YES","ABSENT","ABSENT","ABSENT","YES","NO","YES","YES","YES","YES","YES","NO","NO"] },
-  { name: "Mantas", ward: "Ward 22", yes: 13, no: 4, absent: 7, na: 0,
-    record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","NO","YES"] },
-  { name: "Myers", ward: "Ward 23", yes: 24, no: 0, absent: 0, na: 0,
+  { name: "Kandavel", firstName: "Parthi", ward: "Ward 20", wardName: "Scarborough Southwest", byElection: "Nov 2023", yes: 13, no: 0, absent: 5, na: 6,
+    record: ["YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
+  { name: "Thompson", firstName: "Michael", ward: "Ward 21", wardName: "Scarborough Centre", yes: 11, no: 3, absent: 10, na: 0,
+    record: ["YES","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","NO","NO"] },
+  { name: "Mantas", firstName: "Nick", ward: "Ward 22", wardName: "Scarborough–Agincourt", yes: 13, no: 4, absent: 7, na: 0,
+    record: ["ABSENT","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","NO","NO","ABSENT","YES","YES","ABSENT","NO","YES"] },
+  { name: "Myers", firstName: "Jamaal", ward: "Ward 23", wardName: "Scarborough North", yes: 24, no: 0, absent: 0, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Ainslie", ward: "Ward 24", yes: 18, no: 0, absent: 6, na: 0,
+  { name: "Ainslie", firstName: "Paul", ward: "Ward 24", wardName: "Scarborough–Guildwood", yes: 18, no: 0, absent: 6, na: 0,
     record: ["YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Shan", ward: "Ward 25", yes: 3, no: 0, absent: 0, na: 21,
+  { name: "Shan", firstName: "Neethan", ward: "Ward 25", wardName: "Scarborough–Rouge Park", byElection: "Sep 2025", yes: 3, no: 0, absent: 0, na: 21,
     record: ["YES","YES","YES","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"] }
 ];
 
@@ -531,7 +534,7 @@ function renderCard(c) {
     const chipClass = val === 'YES' ? 'chip-yes' : val === 'NO' ? 'chip-no' : val === 'ABSENT' ? 'chip-absent' : 'chip-na';
     const label = val === 'NA' ? 'N/A' : val;
     return `<div class="vote-row">
-      <span class="vote-name">${v.name}</span>
+      <span class="vote-name">${v.name} <a href="https://secure.toronto.ca/council/agenda-item.do?item=${v.linkId}" target="_blank" style="color:#999;font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#999'">${v.id} ↗</a></span>
       <span class="vote-chip ${chipClass}">${label}</span>
     </div>`;
   }).join('');
@@ -547,18 +550,23 @@ function renderCard(c) {
   if (support !== null && support >= 90 && support < 100) categories.push('supporter');
   if (support !== null && support >= 60 && support < 90) categories.push('mixed');
   if (support !== null && support < 60) categories.push('opposed');
+  // Tier categories
+  const particip2 = (c.yes + c.no + c.absent) > 0 ? (c.yes + c.no) / (c.yes + c.no + c.absent) * 100 : null;
+  if (support === 100 && particip2 > 90) categories.push('tier1');
+  else if (support !== null && support > 80) categories.push('tier2');
+  else if (support !== null && support >= 60) categories.push('tier3');
+  else categories.push('tier4');
   if (c.absent >= 5) categories.push('absent');
   if (c.absent === 0) categories.push('no_absences');
   if (c.na > 6) categories.push('limited');
   categories.push('all');
 
-  const thinData = c.na > 6;
-
   return `<div class="card grade-${grade}" data-categories="${categories.join(' ')}">
     <div class="card-header">
       <div>
-        <div class="card-name">${c.name}${thinData ? ' <span style="font-size:10px;color:#999;font-family:\'DM Mono\',monospace;font-weight:normal;letter-spacing:0;vertical-align:middle;">limited data</span>' : ''}</div>
+        <div class="card-name">${c.firstName} ${c.name}</div>
         <div class="card-ward">${c.ward}</div>
+        <div class="card-ward">${c.wardName}</div>
       </div>
       <div>
         <div style="text-align:right;">
@@ -597,6 +605,7 @@ function renderCard(c) {
       <div class="votes-list">
         ${voteRows}
       </div>
+      <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-dimmer);padding:6px 0 2px;min-height:1.6em;">${c.byElection ? `${c.byElection} by-election` : ''}</div>
     </div>
   </div>`;
 }
@@ -604,6 +613,18 @@ function renderCard(c) {
 function toggleVotes(btn) {
   btn.classList.toggle('open');
   btn.nextElementSibling.classList.toggle('open');
+}
+
+function filterByTier(tier, card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+  if (isActive) return;
+  card.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', !c.dataset.categories.split(' ').includes(tier));
+  });
 }
 
 function filterCards(category, btn) {
@@ -629,9 +650,17 @@ const sorted = [...councillors].sort((a, b) => {
 grid.innerHTML = sorted.map(renderCard).join('');
 
 // Stats
-const champions = sorted.filter(c => getSupport(c) === 100).length;
-const supporters = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 90 && s < 100; }).length;
-const mixed = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 60 && s < 90; }).length;
+const champions = sorted.filter(c => {
+  const s = getSupport(c);
+  const p = (c.yes + c.no) / (c.yes + c.no + c.absent) * 100;
+  return s === 100 && p > 90;
+}).length;
+const supporters = sorted.filter(c => {
+  const s = getSupport(c);
+  const p = (c.yes + c.no) / (c.yes + c.no + c.absent) * 100;
+  return s !== null && s > 80 && !(s === 100 && p > 90);
+}).length;
+const mixed = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 60 && s <= 80; }).length;
 const opposed = sorted.filter(c => { const s = getSupport(c); return s !== null && s < 60; }).length;
 document.getElementById('stat-champions').textContent = champions;
 document.getElementById('stat-supporters').textContent = supporters;
@@ -643,7 +672,7 @@ document.getElementById('stat-opposed').textContent = opposed;
   <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
     <li>Updates on Vision Zero Road Safety Initiatives — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2026.IE27.9 ↗</a></li>
     <li>Cycling Network Plan — 2025 Q4 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE26.6 ↗</a></li>
-    <li>Cycling Network Plan — 2025 Q2 Infrastructure & Sidewalk Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE23.6 ↗</a></li>
+    <li>Cycling Network Plan — 2025 Q2 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE23.6 ↗</a></li>
     <li>Cycling Network Plan — 2025 Q1 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE19.1 ↗</a></li>
     <li>Cycling Network Plan — 2023 Q2 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2023.IE3.8 ↗</a></li>
   </ul>
