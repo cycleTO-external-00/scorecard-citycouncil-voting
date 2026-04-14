@@ -21,8 +21,8 @@
     --na-dim: rgba(150,150,150,0.12);
     --orange: #FF6B00;
     --text: #1a1a1a;
-    --text-dim: #555555;
-    --text-dimmer: #999999;
+    --text-dim: #333333;
+    --text-dimmer: #666666;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,7 +56,7 @@
   }
 
   .header-left h1 span {
-    color: var(--orange);
+    color: #FF6B00;
   }
 
   .header-left p {
@@ -107,50 +107,35 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .filter-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--text-dimmer);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-right: 4px;
-  }
-
-  .filter-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 6px 14px;
-    border-radius: 4px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--orange);
-    border-color: var(--orange);
-    color: #fff;
-  }
-
   /* MAIN GRID */
   .main {
     padding: 32px 48px 0;
+  }
+
+  .stats-section {
+    background: #f5f5f2;
+    padding: 32px 48px;
+    margin: 0 -0px;
   }
 
   .stats-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 0;
   }
 
   .stat-card {
-    background: var(--surface);
+    background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 20px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-card:hover {
+    border-color: #444;
+    transform: translateY(-2px);
   }
 
   .stat-card .stat-number {
@@ -161,7 +146,7 @@
   }
 
   .stat-card.active {
-    outline: 2px solid var(--orange);
+    outline: 2px solid #FF6B00;
   }
   .stat-card .stat-label {
     font-size: 12px;
@@ -184,12 +169,6 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-
-  .card:hover {
-    border-color: #444;
-    transform: translateY(-2px);
   }
 
   .card-header {
@@ -274,7 +253,7 @@
 
   /* VOTES TABLE */
   .votes-section {
-    padding: 0 20px 16px;
+    padding: 0 20px 2px;
   }
 
   .votes-toggle {
@@ -325,8 +304,9 @@
   .vote-row:hover { background: var(--surface2); }
 
   .vote-name {
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
     flex: 1;
     line-height: 1.4;
   }
@@ -346,13 +326,13 @@
   .chip-absent { background: var(--absent-dim); color: var(--absent); }
   .chip-na { background: var(--na-dim); color: var(--na); }
 
-  /* Grade stripe on left */
-  .card.grade-a { border-left: 4px solid #1B5E20; }
-  .card.grade-b { border-left: 4px solid #7CB342; }
-  .card.grade-c { border-left: 4px solid #E65100; }
-  .card.grade-d { border-left: 4px solid #E65100; }
-  .card.grade-f { border-left: 4px solid #C62828; }
-  .card.grade-na { border-left: 4px solid var(--na); }
+  /* Grade stripe on left — colours match TIERS in JS */
+  .card.grade-a { border-left: 12px solid #4CAF50; }
+  .card.grade-b { border-left: 12px solid #A8B400; }
+  .card.grade-c { border-left: 12px solid #FF9800; }
+  .card.grade-d { border-left: 12px solid #C62828; }
+  .card.grade-f { border-left: 12px solid #C62828; }
+  .card.grade-na { border-left: 12px solid var(--na); }
 
   .hidden { display: none !important; }
 
@@ -368,51 +348,40 @@
   <div class="header-left">
     <h1>TORONTO COUNCIL<br><span>CYCLING SCORECARD</span></h1>
     <p>How every active member of Toronto City Council has voted on cycling in the current council term (2022–2026) to date.</p>
-  </div>
-  <div class="header-right">
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--yes)"></div> Yes</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--no)"></div> No</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--absent)"></div> Absent</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--na)"></div> Not in office</div>
+    <div class="legend" style="justify-content:flex-start;margin-top:16px;">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yes)"></div> yes</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--no)"></div> no</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--absent)"></div> absent</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--na)"></div> not in office</div>
     </div>
-    <div style="font-size:11px;color:var(--text-dimmer);font-family:'DM Mono',monospace;margin-top:4px;">Support = YES ÷ (YES + NO) · Participation = (YES + NO) ÷ possible votes</div>
-    
+    <div style="font-size:11px;color:var(--text-dimmer);font-family:'DM Mono',monospace;margin-top:6px;">SUPPORT = yes ÷ (yes + no)<br>PARTICIPATION = (yes + no) ÷ (yes + no + absent)</div>
   </div>
 </div>
 
-<div class="filters">
-  <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-  <button class="filter-btn" onclick="filterCards('champion', this)">100% Support</button>
-  <button class="filter-btn" onclick="filterCards('supporter', this)">90–99% Support</button>
-  <button class="filter-btn" onclick="filterCards('mixed', this)">60–89% Support</button>
-  <button class="filter-btn" onclick="filterCards('opposed', this)">Below 60% Support</button>
-  <button class="filter-btn" onclick="filterCards('absent', this)">High Absences (5+)</button>
-  <button class="filter-btn" onclick="filterCards('no_absences', this)">No Absences</button>
-  <button class="filter-btn" onclick="filterCards('limited', this)">Less Than 2 Years in Office</button>
+
+
+<div class="stats-section">
+  <div class="stats-bar">
+    <div class="stat-card" id="sc-tier1" onclick="filterByTier('tier1', this)" style="cursor:pointer;border-top:12px solid #4CAF50;">
+      <div class="stat-number" style="color:var(--text)" id="stat-champions">—</div>
+      <div class="stat-label">100% Support &amp;<br>100% Participation</div>
+    </div>
+    <div class="stat-card" id="sc-tier2" onclick="filterByTier('tier2', this)" style="cursor:pointer;border-top:12px solid #A8B400;">
+      <div class="stat-number" style="color:var(--text)" id="stat-supporters">—</div>
+      <div class="stat-label">&gt;80% Support</div>
+    </div>
+    <div class="stat-card" id="sc-tier3" onclick="filterByTier('tier3', this)" style="cursor:pointer;border-top:12px solid #FF9800;">
+      <div class="stat-number" style="color:var(--text)" id="stat-mixed">—</div>
+      <div class="stat-label">60–79% Support</div>
+    </div>
+    <div class="stat-card" id="sc-tier4" onclick="filterByTier('tier4', this)" style="cursor:pointer;border-top:12px solid #C62828;">
+      <div class="stat-number" style="color:var(--text)" id="stat-opposed">—</div>
+      <div class="stat-label">&lt; 60% Support</div>
+    </div>
+  </div>
 </div>
 
 <div class="main">
-  <div class="stats-bar">
-    <div class="stat-card" id="sc-tier1" onclick="filterByTier('tier1', this)" style="cursor:pointer;">
-      <div class="stat-number" style="color:#1B5E20" id="stat-champions">—</div>
-      <div class="stat-label">100% Support &amp; &gt;90% Participation</div>
-    </div>
-    <div class="stat-card" id="sc-tier2" onclick="filterByTier('tier2', this)" style="cursor:pointer;">
-      <div class="stat-number" style="color:#7CB342" id="stat-supporters">—</div>
-      <div class="stat-label">&gt;80% Support</div>
-    </div>
-    <div class="stat-card" id="sc-tier4" onclick="filterByTier('tier4', this)" style="cursor:pointer;">
-      <div class="stat-number" style="color:#FF9800" id="stat-mixed">—</div>
-      <div class="stat-label">60–79% Support</div>
-    </div>
-    <div class="stat-card" id="sc-tier3" onclick="filterByTier('tier3', this)" style="cursor:pointer;">
-      <div class="stat-number" style="color:#C62828" id="stat-opposed">—</div>
-      <div class="stat-label">Below 60% Support</div>
-    </div>
-  </div>
-
   <div class="grid" id="grid"></div>
 </div>
 
@@ -445,7 +414,7 @@ const votes = [
 ];
 
 const councillors = [
-  { name: "Chow", firstName: "Olivia", ward: "Mayor", wardName: "City of Toronto", byElection: "Jun 2023", yes: 17, no: 0, absent: 1, na: 6,
+  { name: "Chow", firstName: "Olivia", ward: "Mayor", wardName: "City of Toronto", byElection: "June 2023", yes: 17, no: 0, absent: 1, na: 6,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
   { name: "Crisanti", firstName: "Vincent", ward: "Ward 1", wardName: "Etobicoke North", yes: 10, no: 11, absent: 3, na: 0,
     record: ["YES","YES","ABSENT","NO","NO","NO","NO","NO","YES","NO","ABSENT","YES","NO","YES","YES","YES","NO","NO","ABSENT","NO","YES","YES","NO","YES"] },
@@ -475,7 +444,7 @@ const councillors = [
     record: ["YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
   { name: "Fletcher", firstName: "Paula", ward: "Ward 14", wardName: "Toronto–Danforth", yes: 23, no: 0, absent: 1, na: 0,
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Chernos Lin", firstName: "Rachel", ward: "Ward 15", wardName: "Don Valley West", byElection: "Nov 2024", yes: 2, no: 0, absent: 2, na: 20,
+  { name: "Chernos Lin", firstName: "Rachel", ward: "Ward 15", wardName: "Don Valley West", byElection: "November 2024", yes: 2, no: 0, absent: 2, na: 20,
     record: ["YES","ABSENT","ABSENT","YES","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"] },
   { name: "Burnside", firstName: "Jon", ward: "Ward 16", wardName: "Don Valley East", yes: 18, no: 5, absent: 1, na: 0,
     record: ["YES","NO","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","NO","NO","YES"] },
@@ -485,7 +454,7 @@ const councillors = [
     record: ["YES","YES","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","ABSENT","ABSENT","YES","YES"] },
   { name: "Bradford", firstName: "Brad", ward: "Ward 19", wardName: "Beaches–East York", yes: 12, no: 7, absent: 5, na: 0,
     record: ["YES","YES","NO","NO","NO","YES","NO","NO","YES","YES","ABSENT","YES","ABSENT","ABSENT","ABSENT","ABSENT","NO","NO","YES","YES","YES","YES","YES","YES"] },
-  { name: "Kandavel", firstName: "Parthi", ward: "Ward 20", wardName: "Scarborough Southwest", byElection: "Nov 2023", yes: 13, no: 0, absent: 5, na: 6,
+  { name: "Kandavel", firstName: "Parthi", ward: "Ward 20", wardName: "Scarborough Southwest", byElection: "November 2023", yes: 13, no: 0, absent: 5, na: 6,
     record: ["YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","NA","NA","NA","NA","NA","NA"] },
   { name: "Thompson", firstName: "Michael", ward: "Ward 21", wardName: "Scarborough Centre", yes: 11, no: 3, absent: 10, na: 0,
     record: ["YES","ABSENT","NO","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","NO","NO"] },
@@ -495,7 +464,7 @@ const councillors = [
     record: ["YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
   { name: "Ainslie", firstName: "Paul", ward: "Ward 24", wardName: "Scarborough–Guildwood", yes: 18, no: 0, absent: 6, na: 0,
     record: ["YES","YES","YES","YES","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Shan", firstName: "Neethan", ward: "Ward 25", wardName: "Scarborough–Rouge Park", byElection: "Sep 2025", yes: 3, no: 0, absent: 0, na: 21,
+  { name: "Shan", firstName: "Neethan", ward: "Ward 25", wardName: "Scarborough–Rouge Park", byElection: "September 2025", yes: 3, no: 0, absent: 0, na: 21,
     record: ["YES","YES","YES","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"] }
 ];
 
@@ -504,25 +473,35 @@ function getSupport(c) {
   return Math.round(c.yes / (c.yes + c.no) * 100);
 }
 
-function getGrade(support, absents) {
-  if (support === null) return 'na';
-  if (support === 100) return 'a';
-  if (support >= 90) return 'b';
-  if (support >= 60) return 'c';
-  return 'f';
+// ── Single source of truth for tier logic ──
+const TIERS = [
+  { tier: 1, grade: 'a', color: '#4CAF50', test: (s, p, v) => s === 100 && p === 100 && v > 5 },
+  { tier: 2, grade: 'b', color: '#A8B400', test: (s, p, v) => s > 80 },
+  { tier: 3, grade: 'c', color: '#FF9800', test: (s, p, v) => s >= 60 },
+  { tier: 4, grade: 'd', color: '#C62828', test: (s, p, v) => true },
+];
+
+function getTier(c) {
+  const yn = c.yes + c.no;
+  const possible = c.yes + c.no + c.absent;
+  const support = yn > 0 ? c.yes / yn * 100 : null;
+  const particip = possible > 0 ? (c.yes + c.no) / possible * 100 : null;
+  const votes = possible;
+  if (support === null) return null;
+  return TIERS.find(t => t.test(support, particip, votes));
 }
 
-function getSupportColor(support) {
-  if (support === null) return 'var(--na)';
-  if (support === 100) return '#1B5E20';
-  if (support >= 90) return '#7CB342';
-  if (support >= 60) return '#E65100';
-  return '#C62828';
+function getGrade(support, absents) {
+  return 'a'; // superseded by getTier
+}
+
+function getSupportColor(c) {
+  return 'var(--text)';
 }
 
 function renderCard(c) {
   const support = getSupport(c);
-  const grade = getGrade(support, c.absent);
+  const tierObj = getTier(c); const grade = tierObj ? tierObj.grade : 'na';
   const total = c.yes + c.no + c.absent + c.na;
   const pYes = (c.yes / total * 100).toFixed(1);
   const pNo = (c.no / total * 100).toFixed(1);
@@ -532,15 +511,16 @@ function renderCard(c) {
   const voteRows = votes.map((v, i) => {
     const val = c.record[i];
     const chipClass = val === 'YES' ? 'chip-yes' : val === 'NO' ? 'chip-no' : val === 'ABSENT' ? 'chip-absent' : 'chip-na';
-    const label = val === 'NA' ? 'N/A' : val;
+    const label = val === 'NA' ? 'N/A' : val === 'ABSENT' ? 'ABS' : val;
     return `<div class="vote-row">
-      <span class="vote-name">${v.name} <a href="https://secure.toronto.ca/council/agenda-item.do?item=${v.linkId}" target="_blank" style="color:#999;font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#999'">${v.id} ↗</a></span>
+      <span class="vote-name">${v.name} <a href="https://secure.toronto.ca/council/agenda-item.do?item=${v.linkId}" target="_blank" style="color:var(--text-dimmer);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">${v.id} ↗</a></span>
       <span class="vote-chip ${chipClass}">${label}</span>
     </div>`;
   }).join('');
 
   const supportDisplay = support !== null ? support + '%' : 'N/A';
-  const supportColor = getSupportColor(support);
+  const supportColor = getSupportColor(c);
+  const tierColor = 'var(--text)';
   const possible = c.yes + c.no + c.absent;
   const participation = possible > 0 ? Math.round((c.yes + c.no) / possible * 100) : null;
   const participationDisplay = participation !== null ? participation + '%' : 'N/A';
@@ -551,11 +531,8 @@ function renderCard(c) {
   if (support !== null && support >= 60 && support < 90) categories.push('mixed');
   if (support !== null && support < 60) categories.push('opposed');
   // Tier categories
-  const particip2 = (c.yes + c.no + c.absent) > 0 ? (c.yes + c.no) / (c.yes + c.no + c.absent) * 100 : null;
-  if (support === 100 && particip2 > 90) categories.push('tier1');
-  else if (support !== null && support > 80) categories.push('tier2');
-  else if (support !== null && support >= 60) categories.push('tier3');
-  else categories.push('tier4');
+  const tierObj2 = getTier(c);
+  if (tierObj2) categories.push('tier' + tierObj2.tier);
   if (c.absent >= 5) categories.push('absent');
   if (c.absent === 0) categories.push('no_absences');
   if (c.na > 6) categories.push('limited');
@@ -573,12 +550,11 @@ function renderCard(c) {
           <div style="display:flex;gap:12px;align-items:baseline;justify-content:flex-end;">
             <div>
               <div class="support-badge" style="color:${supportColor};font-size:24px;">${supportDisplay}</div>
-              <div class="support-label">Support</div>
+              <div class="support-label">SUPPORT</div>
             </div>
-            <div style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:14px;padding-bottom:16px;">·</div>
             <div>
-              <div class="support-badge" style="color:#5C7AEA;font-size:24px;">${participationDisplay}</div>
-              <div class="support-label">Particip.</div>
+              <div class="support-badge" style="color:${tierColor};font-size:24px;">${participationDisplay}</div>
+              <div class="support-label">PARTICIPATION</div>
             </div>
           </div>
         </div>
@@ -592,11 +568,12 @@ function renderCard(c) {
         <div class="bar-na" style="width:${pNa}%"></div>
       </div>
       <div class="bar-counts">
-        <span class="bar-count"><div class="dot" style="background:var(--yes)"></div>${c.yes} yes</span>
-        <span class="bar-count"><div class="dot" style="background:var(--no)"></div>${c.no} no</span>
-        <span class="bar-count"><div class="dot" style="background:var(--absent)"></div>${c.absent} absent</span>
-        ${c.na > 0 ? `<span class="bar-count"><div class="dot" style="background:var(--na)"></div>${c.na} n/a</span>` : ''}
-      </div>
+          <span class="bar-count"><div class="dot" style="background:var(--yes)"></div>${c.yes} yes</span>
+          <span class="bar-count"><div class="dot" style="background:var(--no)"></div>${c.no} no</span>
+          <span class="bar-count"><div class="dot" style="background:var(--absent)"></div>${c.absent} absent</span>
+          ${c.na > 0 ? `<span class="bar-count"><div class="dot" style="background:var(--na)"></div>${c.na} n/a†</span>` : ''}
+        </div>
+        <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-dimmer);min-height:1.2em;text-align:right;">${c.byElection ? `† ${c.byElection} by-election` : ''}</div>
     </div>
     <div class="votes-section">
       <button class="votes-toggle" onclick="toggleVotes(this)">
@@ -605,7 +582,8 @@ function renderCard(c) {
       <div class="votes-list">
         ${voteRows}
       </div>
-      <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-dimmer);padding:6px 0 2px;min-height:1.6em;">${c.byElection ? `${c.byElection} by-election` : ''}</div>
+      <div class="reverse-note hidden" style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-dimmer);padding:4px 0 0;">* Reverse-scored from the original</div>
+
     </div>
   </div>`;
 }
@@ -613,6 +591,7 @@ function renderCard(c) {
 function toggleVotes(btn) {
   btn.classList.toggle('open');
   btn.nextElementSibling.classList.toggle('open');
+  btn.nextElementSibling.nextElementSibling.classList.toggle('hidden');
 }
 
 function filterByTier(tier, card) {
@@ -650,31 +629,23 @@ const sorted = [...councillors].sort((a, b) => {
 grid.innerHTML = sorted.map(renderCard).join('');
 
 // Stats
-const champions = sorted.filter(c => {
-  const s = getSupport(c);
-  const p = (c.yes + c.no) / (c.yes + c.no + c.absent) * 100;
-  return s === 100 && p > 90;
-}).length;
-const supporters = sorted.filter(c => {
-  const s = getSupport(c);
-  const p = (c.yes + c.no) / (c.yes + c.no + c.absent) * 100;
-  return s !== null && s > 80 && !(s === 100 && p > 90);
-}).length;
-const mixed = sorted.filter(c => { const s = getSupport(c); return s !== null && s >= 60 && s <= 80; }).length;
-const opposed = sorted.filter(c => { const s = getSupport(c); return s !== null && s < 60; }).length;
+const champions = sorted.filter(c => getTier(c)?.tier === 1).length;
+const supporters = sorted.filter(c => getTier(c)?.tier === 2).length;
+const mixed      = sorted.filter(c => getTier(c)?.tier === 3).length;
+const opposed    = sorted.filter(c => getTier(c)?.tier === 4).length;
 document.getElementById('stat-champions').textContent = champions;
 document.getElementById('stat-supporters').textContent = supporters;
 document.getElementById('stat-mixed').textContent = mixed;
 document.getElementById('stat-opposed').textContent = opposed;
 </script>
-<div style="padding: 20px 48px 32px; font-family: 'DM Mono', monospace; font-size: 11px; color: #999; border-top: 1px solid #e0e0da; margin-top: 8px; line-height: 1.8;">
-  <strong style="color:#555;font-size:11px;">Note:</strong> This scorecard tracks recorded votes on key cycling items, motions, and amendments only. The following items passed without a recorded vote and are not included in any councillor's score:<br>
+<div style="background: var(--surface); border-top: 3px solid var(--orange); margin-top: 32px; padding: 32px 48px 40px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-dim); line-height: 1.8;">
+  <strong style="color: var(--text); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Note:</strong> This scorecard tracks recorded votes on key cycling items, motions, and amendments only. The following items passed without a recorded vote and are not included in any councillor's score:<br>
   <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
-    <li>Updates on Vision Zero Road Safety Initiatives — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2026.IE27.9 ↗</a></li>
-    <li>Cycling Network Plan — 2025 Q4 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE26.6 ↗</a></li>
-    <li>Cycling Network Plan — 2025 Q2 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE23.6 ↗</a></li>
-    <li>Cycling Network Plan — 2025 Q1 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2025.IE19.1 ↗</a></li>
-    <li>Cycling Network Plan — 2023 Q2 Infrastructure Update — <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='#aaa'">2023.IE3.8 ↗</a></li>
+    <li>Updates on Vision Zero Road Safety Initiatives <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2026.IE27.9 ↗</a></li>
+    <li>Cycling Network Plan 2025 Q4 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2025.IE26.6 ↗</a></li>
+    <li>Cycling Network Plan 2025 Q2 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2025.IE23.6 ↗</a></li>
+    <li>Cycling Network Plan 2025 Q1 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2025.IE19.1 ↗</a></li>
+    <li>Cycling Network Plan 2023 Q2 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2023.IE3.8 ↗</a></li>
   </ul>
 </div>
 </body>
