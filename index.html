@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toronto Council Cycling Scorecard 2022–2026 (V4)</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f5f2;
+    --bg: #ffffff;
     --surface: #ffffff;
-    --surface2: #f0f0ed;
-    --border: #e0e0da;
-    --yes: #4CAF50;
-    --yes-dim: rgba(76,175,80,0.15);
+    --surface2: #f5f6f8;
+    --border: #e4e4e4;
+    --yes: #3DB19D;
+    --yes-dim: rgba(61,177,157,0.15);
     --no: #f44336;
     --no-dim: rgba(244,67,54,0.15);
-    --absent: #FF9800;
-    --absent-dim: rgba(255,152,0,0.12);
-    --na: #999999;
-    --na-dim: rgba(150,150,150,0.12);
-    --orange: #FF6B00;
+    --absent: #F7971F;
+    --absent-dim: rgba(247,151,31,0.15);
+    --na: #80888E;
+    --na-dim: rgba(128,136,142,0.12);
+    --orange: #F7971F;
+    --blue: #253F91;
     --text: #1a1a1a;
     --text-dim: #333333;
     --text-dimmer: #666666;
@@ -30,19 +31,19 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     min-height: 100vh;
     padding: 0 0 80px;
   }
 
   /* HEADER */
   .header {
-    background: var(--surface);
-    border-bottom: 3px solid var(--orange);
+    background: var(--blue);
+    border-bottom: 4px solid var(--orange);
     padding: 40px 48px 32px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 24px;
   }
@@ -56,12 +57,12 @@
   }
 
   .header-left h1 span {
-    color: #FF6B00;
+    color: var(--orange);
   }
 
   .header-left p {
     margin-top: 10px;
-    color: var(--text-dim);
+    color: rgba(255,255,255,0.75);
     font-size: 14px;
     font-weight: 300;
     max-width: 480px;
@@ -70,9 +71,13 @@
 
   .header-right {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
+    align-items: flex-start;
+    flex-shrink: 0;
+  }
+
+  .header-right img {
+    height: calc(clamp(36px, 5vw, 64px) * 2);
+    width: auto;
   }
 
   .legend {
@@ -87,8 +92,8 @@
     align-items: center;
     gap: 6px;
     font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    color: var(--text-dim);
+    font-family: 'Roboto Mono', monospace;
+    color: rgba(255,255,255,0.75);
   }
 
   .legend-dot {
@@ -113,7 +118,7 @@
   }
 
   .stats-section {
-    background: #f5f5f2;
+    background: var(--surface2);
     padding: 32px 48px;
     margin: 0 -0px;
   }
@@ -146,13 +151,13 @@
   }
 
   .stat-card.active {
-    outline: 2px solid #FF6B00;
+    outline: 2px solid var(--orange);
   }
   .stat-card .stat-label {
     font-size: 12px;
     color: var(--text-dim);
     margin-top: 4px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -188,10 +193,28 @@
 
   .card-ward {
     font-size: 11px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     color: var(--text-dimmer);
     margin-top: 3px;
     text-transform: uppercase;
+  }
+
+  .card-name-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .card-name-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .card-ward-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .card-ward-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .support-badge {
@@ -204,7 +227,7 @@
 
   .support-label {
     font-size: 10px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     color: var(--text-dimmer);
     text-transform: uppercase;
     text-align: right;
@@ -238,7 +261,7 @@
   }
 
   .bar-count {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     font-size: 11px;
     display: flex;
     align-items: center;
@@ -263,7 +286,7 @@
     padding: 10px 0;
     cursor: pointer;
     font-size: 11px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     color: var(--text-dimmer);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -305,14 +328,14 @@
 
   .vote-name {
     font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: var(--text);
     flex: 1;
     line-height: 1.4;
   }
 
   .vote-chip {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
     font-size: 10px;
     font-weight: 500;
     padding: 2px 7px;
@@ -327,9 +350,9 @@
   .chip-na { background: var(--na-dim); color: var(--na); }
 
   /* Grade stripe on left — colours match TIERS in JS */
-  .card.grade-a { border-left: 12px solid #4CAF50; }
-  .card.grade-b { border-left: 12px solid #A8B400; }
-  .card.grade-c { border-left: 12px solid #FF9800; }
+  .card.grade-a { border-left: 12px solid #3DB19D; }
+  .card.grade-b { border-left: 12px solid #A2D06B; }
+  .card.grade-c { border-left: 12px solid #FED538; }
   .card.grade-d { border-left: 12px solid #C62828; }
   .card.grade-f { border-left: 12px solid #C62828; }
   .card.grade-na { border-left: 12px solid var(--na); }
@@ -354,7 +377,10 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--absent)"></div> absent</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--na)"></div> not in office</div>
     </div>
-    <div style="font-size:11px;color:var(--text-dimmer);font-family:'DM Mono',monospace;margin-top:6px;">SUPPORT = yes ÷ (yes + no)<br>PARTICIPATION = (yes + no) ÷ (yes + no + absent)</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:'Roboto Mono',monospace;margin-top:6px;">SUPPORT = yes ÷ (yes + no)<br>PARTICIPATION = (yes + no) ÷ (yes + no + absent)</div>
+  </div>
+  <div class="header-right">
+    <a href="https://www.cycleto.ca" target="_blank" rel="noopener"><img src="org-logo-square.png" alt="CycleTO"></a>
   </div>
 </div>
 
@@ -362,15 +388,15 @@
 
 <div class="stats-section">
   <div class="stats-bar">
-    <div class="stat-card" id="sc-tier1" onclick="filterByTier('tier1', this)" style="cursor:pointer;border-top:12px solid #4CAF50;">
+    <div class="stat-card" id="sc-tier1" onclick="filterByTier('tier1', this)" style="cursor:pointer;border-top:12px solid #3DB19D;">
       <div class="stat-number" style="color:var(--text)" id="stat-champions">—</div>
       <div class="stat-label">100% Support &amp;<br>100% Participation</div>
     </div>
-    <div class="stat-card" id="sc-tier2" onclick="filterByTier('tier2', this)" style="cursor:pointer;border-top:12px solid #A8B400;">
+    <div class="stat-card" id="sc-tier2" onclick="filterByTier('tier2', this)" style="cursor:pointer;border-top:12px solid #A2D06B;">
       <div class="stat-number" style="color:var(--text)" id="stat-supporters">—</div>
       <div class="stat-label">&gt;80% Support</div>
     </div>
-    <div class="stat-card" id="sc-tier3" onclick="filterByTier('tier3', this)" style="cursor:pointer;border-top:12px solid #FF9800;">
+    <div class="stat-card" id="sc-tier3" onclick="filterByTier('tier3', this)" style="cursor:pointer;border-top:12px solid #FED538;">
       <div class="stat-number" style="color:var(--text)" id="stat-mixed">—</div>
       <div class="stat-label">60–79% Support</div>
     </div>
@@ -412,6 +438,34 @@ const votes = [
   { name: "Make Yonge Bike Lanes Permanent*", id: "2023.IE1.4 M2a", linkId: "2023.IE1.4" },
   { name: "ActiveTO Yonge and Bayview Bike Lanes", id: "2023.IE1.4", linkId: "2023.IE1.4" }
 ];
+
+const wardUrls = {
+  1: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-1-etobicoke-north",
+  2: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-2-etobicoke-centre",
+  3: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-3-etobicoke-lakeshore",
+  4: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-4-parkdale-high-park",
+  5: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-5-york-south-weston",
+  6: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-6-york-centre",
+  7: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-7-humber-river-black-creek",
+  8: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-8-eglinton-lawrence",
+  9: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-9-davenport/",
+  10: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-10-spadina-fort-york",
+  11: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-11-university-rosedale",
+  12: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-12-toronto-st-pauls",
+  13: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-13-toronto-centre",
+  14: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-14-toronto-danforth",
+  15: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-15-don-valley-west",
+  16: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-16-don-valley-east",
+  17: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-17-don-valley-north",
+  18: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-18-willowdale",
+  19: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-19-beaches-east-york",
+  20: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-20-scarborough-southwest",
+  21: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-21-scarborough-centre",
+  22: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-22-scarborough-agincourt",
+  23: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-23-scarborough-north",
+  24: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-24-scarborough-guildwood",
+  25: "https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-25-scarborough-rouge-park",
+};
 
 const councillors = [
   { name: "Chow", firstName: "Olivia", ward: "Mayor", wardName: "City of Toronto", byElection: "June 2023", yes: 17, no: 0, absent: 1, na: 6,
@@ -541,9 +595,25 @@ function renderCard(c) {
   return `<div class="card grade-${grade}" data-categories="${categories.join(' ')}">
     <div class="card-header">
       <div>
-        <div class="card-name">${c.firstName} ${c.name}</div>
-        <div class="card-ward">${c.ward}</div>
-        <div class="card-ward">${c.wardName}</div>
+        <div class="card-name">${(() => {
+          const wardNum = parseInt(c.ward.replace('Ward ', ''));
+          const councillorUrl = wardNum
+            ? `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`
+            : `https://www.toronto.ca/city-government/council/office-of-the-mayor/about-mayor/`;
+          return `<a href="${councillorUrl}" target="_blank" rel="noopener" class="card-name-link">${c.firstName} ${c.name}</a>`;
+        })()}</div>
+        ${(() => {
+          const wardNum = parseInt(c.ward.replace('Ward ', ''));
+          const wardUrl = wardUrls[wardNum];
+          const mayorOfficeUrl = 'https://www.toronto.ca/city-government/council/office-of-the-mayor/';
+          if (wardUrl) {
+            return `<div class="card-ward"><a href="${wardUrl}" target="_blank" rel="noopener" class="card-ward-link">${c.ward}</a></div>
+        <div class="card-ward"><a href="${wardUrl}" target="_blank" rel="noopener" class="card-ward-link">${c.wardName}</a></div>`;
+          } else {
+            return `<div class="card-ward"><a href="${mayorOfficeUrl}" target="_blank" rel="noopener" class="card-ward-link">${c.ward}</a></div>
+        <div class="card-ward"><a href="${mayorOfficeUrl}" target="_blank" rel="noopener" class="card-ward-link">${c.wardName}</a></div>`;
+          }
+        })()}
       </div>
       <div>
         <div style="text-align:right;">
@@ -638,7 +708,7 @@ document.getElementById('stat-supporters').textContent = supporters;
 document.getElementById('stat-mixed').textContent = mixed;
 document.getElementById('stat-opposed').textContent = opposed;
 </script>
-<div style="background: var(--surface); border-top: 3px solid var(--orange); margin-top: 32px; padding: 32px 48px 40px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-dim); line-height: 1.8;">
+<div style="background: var(--surface); border-top: 3px solid var(--orange); margin-top: 32px; padding: 32px 48px 40px; font-family: 'Roboto', sans-serif; font-size: 13px; color: var(--text-dim); line-height: 1.8;">
   <strong style="color: var(--text); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Note:</strong> This scorecard tracks recorded votes on key cycling items, motions, and amendments only. The following items passed without a recorded vote and are not included in any councillor's score:<br>
   <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
     <li>Updates on Vision Zero Road Safety Initiatives <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:var(--text-dimmer);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='#FF6B00'" onmouseout="this.style.color='var(--text-dimmer)'">2026.IE27.9 ↗</a></li>
