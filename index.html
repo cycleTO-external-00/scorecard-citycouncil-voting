@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toronto Council Cycling Scorecard 2022–2026 (V4)</title>
+<title>Toronto City Council Cycling Scorecard</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -400,7 +401,7 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>TORONTO COUNCIL<br><span>CYCLING SCORECARD</span></h1>
+    <h1>TORONTO CITY COUNCIL<br><span>CYCLING SCORECARD</span></h1>
     <p>How every active member of Toronto City Council has voted on cycling in the current council term (2022–2026) to date.</p>
     <div class="legend" style="justify-content:flex-start;margin-top:16px;">
       <div class="legend-item"><div class="legend-dot" style="background:var(--yes)"></div> yes</div>
@@ -450,8 +451,8 @@ const votes = [
   { name: "Parkside Drive and Bike Lanes", id: "2024.IE17.4", linkId: "2024.IE17.4" },
   { name: "Keep Bloor West Bike Lanes*", id: "2024.IE14.4 M1", linkId: "2024.IE14.4" },
   { name: "Cycling Network Plan Q3 2024 Projects", id: "2024.IE14.4", linkId: "2024.IE14.4" },
-  { name: "Do Not Cut Major City-Wide Route Plans*", id: "2024.IE14.3 M3d", linkId: "2024.IE14.3" },
-  { name: "Do Not Prioritize Local Approvals*", id: "2024.IE14.3 M3b", linkId: "2024.IE14.3" },
+  { name: "Keep 500 km Major Cycling Route Plan*", id: "2024.IE14.3 M3d", linkId: "2024.IE14.3" },
+  { name: "Emphasize Citywide Cycling Network Planning*", id: "2024.IE14.3 M3b", linkId: "2024.IE14.3" },
   { name: "Expedite Etobicoke Greenway", id: "2024.IE14.3 M3a", linkId: "2024.IE14.3" },
   { name: "2025-2027 100 km Cycling Network Plan", id: "2024.IE14.3", linkId: "2024.IE14.3" },
   { name: "Eglinton Complete Street with Bike Lanes", id: "2024.IE13.2", linkId: "2024.IE13.2" },
@@ -742,7 +743,7 @@ document.getElementById('stat-mixed').textContent = mixed;
 document.getElementById('stat-opposed').textContent = opposed;
 </script>
 <div style="background: var(--blue); border-top: 4px solid var(--orange); margin-top: 32px; padding: 32px 48px 40px; font-family: 'Roboto', sans-serif; font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.8;">
-  <strong style="color: var(--white); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Note:</strong> This scorecard tracks recorded votes on key cycling items, motions, and amendments only. The following items passed without a recorded vote and are not included in any councillor's score:<br>
+  <strong style="color: var(--white); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Note:</strong>The following items were approved without recorded votes and are not included in any councillor's score:<br>
   <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
     <li>Updates on Vision Zero Road Safety Initiatives <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">2026.IE27.9 ↗</a></li>
     <li>Cycling Network Plan 2025 Q4 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">2025.IE26.6 ↗</a></li>
@@ -750,6 +751,9 @@ document.getElementById('stat-opposed').textContent = opposed;
     <li>Cycling Network Plan 2025 Q1 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">2025.IE19.1 ↗</a></li>
     <li>Cycling Network Plan 2023 Q2 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">2023.IE3.8 ↗</a></li>
   </ul>
+  <p style="margin-top:20px;border-top:1px solid rgba(255,255,255,0.15);padding-top:16px;">This scorecard is maintained by Cycle Toronto and tracks recorded votes at Toronto City Council for the current council term (2022–2026) on key cycling items, motions, and amendments.</p>
+  <p style="margin-top:10px;">Suggestions or corrections? <a href="https://www.cycleto.ca/contact-us" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.75);text-decoration:underline;text-underline-offset:3px;">Contact us.</a></p>
+  <p style="margin-top:10px;color:rgba(255,255,255,0.4);">Last updated April 15, 2026.</p>
 </div>
 </body>
 </html>
