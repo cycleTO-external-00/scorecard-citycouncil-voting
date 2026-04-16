@@ -207,14 +207,6 @@
     text-transform: uppercase;
   }
 
-  .card-name-link {
-    color: inherit;
-    text-decoration: none;
-  }
-  .card-name-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
 
   .card-ward-link {
     color: inherit;
@@ -630,11 +622,7 @@ function renderCard(c) {
     <div class="card-header">
       <div>
         <div class="card-name">${(() => {
-          const wardNum = parseInt(c.ward.replace('Ward ', ''));
-          const councillorUrl = wardNum
-            ? `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`
-            : `https://www.toronto.ca/city-government/council/office-of-the-mayor/about-mayor/`;
-          return `<a href="${councillorUrl}" target="_blank" rel="noopener" class="card-name-link">${c.firstName} ${c.name}</a>`;
+          return `${c.firstName} ${c.name}`;
         })()}</div>
         ${(() => {
           const wardNum = parseInt(c.ward.replace('Ward ', ''));
