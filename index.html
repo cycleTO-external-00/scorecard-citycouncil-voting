@@ -743,5 +743,10 @@ document.getElementById('stat-opposed').textContent = opposed;
   <p style="margin-top:10px;">Suggestions or corrections? <a href="https://www.cycleto.ca/contact-us" target="_blank" rel="noopener" style="color:var(--white);text-decoration:underline;text-underline-offset:3px;">Contact us.</a></p>
   <p style="margin-top:10px;color:var(--white);">Last updated April 15, 2026.</p>
 </div>
+<script>
+  window.addEventListener('load', function() {
+    window.parent.postMessage({ frameHeight: document.body.scrollHeight }, '*');
+  });
+</script>
 </body>
 </html>
