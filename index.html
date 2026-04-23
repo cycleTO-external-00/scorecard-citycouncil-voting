@@ -442,7 +442,7 @@ const votes = [
   { name: "Transform Yonge Bike Lanes", id: "2025.MM35.10", linkId: "2025.MM35.10" },
   { name: "Parkside Drive and Bike Lanes", id: "2024.IE17.4", linkId: "2024.IE17.4" },
   { name: "Keep Bloor West Bike Lanes*", id: "2024.IE14.4 M1", linkId: "2024.IE14.4" },
-  { name: "Cycling Network Plan Q3 2024 Projects", id: "2024.IE14.4", linkId: "2024.IE14.4" },
+  { name: "2024 Q3 report (incl. Avenue)", id: "2024.IE14.4", linkId: "2024.IE14.4" },
   { name: "Keep 500 km Major Cycling Route Plan*", id: "2024.IE14.3 M3d", linkId: "2024.IE14.3" },
   { name: "Emphasize Citywide Cycling Network Planning*", id: "2024.IE14.3 M3b", linkId: "2024.IE14.3" },
   { name: "Expedite Etobicoke Greenway", id: "2024.IE14.3 M3a", linkId: "2024.IE14.3" },
@@ -450,12 +450,12 @@ const votes = [
   { name: "Eglinton Complete Street with Bike Lanes", id: "2024.IE13.2", linkId: "2024.IE13.2" },
   { name: "License Courier Businesses Not Riders", id: "2024.IE13.1 R12", linkId: "2024.IE13.1" },
   { name: "Portland Bike Lanes", id: "2024.IE12.4 P1f", linkId: "2024.IE12.4" },
-  { name: "Cycling Network Plan Q2 2024 Projects", id: "2024.IE12.4", linkId: "2024.IE12.4" },
+  { name: "2024 Q2 report (incl. Dan Leckie)", id: "2024.IE12.4", linkId: "2024.IE12.4" },
   { name: "Safe & Passable Bike Lanes", id: "2024.IE10.3", linkId: "2024.IE10.3" },
-  { name: "Cycling Network Plan Q1 2024 Projects", id: "2024.IE10.2", linkId: "2024.IE10.2" },
+  { name: "2024 Q1 report (incl. Harbord-Hoskins)", id: "2024.IE10.2", linkId: "2024.IE10.2" },
   { name: "Keep Bloor West Bike Lanes*", id: "2024.CC23.1 M3", linkId: "2024.CC23.1" },
   { name: "Oppose Provincial Bike Lane Removal", id: "2024.CC23.1 M1", linkId: "2024.CC23.1" },
-  { name: "Cycling Network Plan Q3 2023 Projects", id: "2023.IE4.3", linkId: "2023.IE4.3" },
+  { name: "2023 Q3 report (incl. Bloor West)", id: "2023.IE4.3", linkId: "2023.IE4.3" },
   { name: "High Park Movement Strategy", id: "2023.IE3.7", linkId: "2023.IE3.7" },
   { name: "Extend College Bike Lanes", id: "2023.IE2.7", linkId: "2023.IE2.7" },
   { name: "Bike Share Discounted Rates", id: "2023.IE2.6", linkId: "2023.IE2.6" },
@@ -528,7 +528,7 @@ const councillors = [
     record: ["YES","NO","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","ABSENT","YES","YES","YES","YES","NO","NO","YES"] },
   { name: "Carroll", firstName: "Shelley", ward: "Ward 17", wardName: "Don Valley North", yes: 19, no: 0, absent: 5, na: 0,
     record: ["YES","ABSENT","ABSENT","YES","YES","YES","YES","YES","YES","YES","ABSENT","ABSENT","YES","YES","ABSENT","YES","YES","YES","YES","YES","YES","YES","YES","YES"] },
-  { name: "Cheng", firstName: "Lily", ward: "Ward 18", wardName: "Scarborough Southwest", yes: 18, no: 4, absent: 2, na: 0,
+  { name: "Cheng", firstName: "Lily", ward: "Ward 18", wardName: "Willowdale", yes: 18, no: 4, absent: 2, na: 0,
     record: ["YES","YES","YES","NO","YES","YES","YES","NO","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","YES","NO","ABSENT","ABSENT","YES","YES"] },
   { name: "Bradford", firstName: "Brad", ward: "Ward 19", wardName: "Beaches–East York", yes: 12, no: 7, absent: 5, na: 0,
     record: ["YES","YES","NO","NO","NO","YES","NO","NO","YES","YES","ABSENT","YES","ABSENT","ABSENT","ABSENT","ABSENT","NO","NO","YES","YES","YES","YES","YES","YES"] },
@@ -733,15 +733,16 @@ document.getElementById('stat-opposed').textContent = opposed;
 <div style="background: var(--blue); border-top: 4px solid var(--orange); margin-top: 32px; padding: 32px 48px 40px; font-family: 'Roboto', sans-serif; font-size: 13px; color: var(--white); line-height: 1.8;">
   <strong style="color: var(--white); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Note: </strong>The following items were approved without recorded votes and are not included in any councillor's score:<br>
   <ul style="margin-top:8px;padding-left:16px;list-style:disc;">
-    <li>Updates on Vision Zero Road Safety Initiatives <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2026.IE27.9 ↗</a></li>
-    <li>Cycling Network Plan 2025 Q4 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE26.6 ↗</a></li>
-    <li>Cycling Network Plan 2025 Q2 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE23.6 ↗</a></li>
-    <li>Cycling Network Plan 2025 Q1 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE19.1 ↗</a></li>
-    <li>Cycling Network Plan 2023 Q2 Projects <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2023.IE3.8 ↗</a></li>
+    <li>Upgrade and Beautify Bike Lanes <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.EX30.3" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2026.EX30.3 M1 ↗</a></li>
+    <li>Vision Zero (incl. Brimorton) <a href="https://secure.toronto.ca/council/agenda-item.do?item=2026.IE27.9" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2026.IE27.9 ↗</a></li>
+    <li>2025 Q4 update (incl. Kingston) <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE26.6" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE26.6 ↗</a></li>
+    <li>2025 Q2 update (0 km New Bike Lanes) <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE23.6" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE23.6 ↗</a></li>
+    <li>2025 Q1 update (incl. Ellesmere) <a href="https://secure.toronto.ca/council/agenda-item.do?item=2025.IE19.1" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2025.IE19.1 ↗</a></li>
+    <li>2023 Q2 update (incl. Scarb. Golf Club) <a href="https://secure.toronto.ca/council/agenda-item.do?item=2023.IE3.8" target="_blank" style="color:var(--white);font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;white-space:nowrap;" onmouseover="this.style.color='var(--orange)'" onmouseout="this.style.color='var(--white)'">2023.IE3.8 ↗</a></li>
   </ul>
   <p style="margin-top:20px;border-top:1px solid rgba(255,255,255,0.15);padding-top:16px;">This scorecard is maintained by Cycle Toronto and tracks recorded votes at Toronto City Council for the current council term (2022–2026) on key cycling items, motions, and amendments. Scores are not endorsements.</p>
   <p style="margin-top:10px;">Suggestions or corrections? <a href="https://www.cycleto.ca/contact-us" target="_blank" rel="noopener" style="color:var(--white);text-decoration:underline;text-underline-offset:3px;">Contact us.</a></p>
-  <p style="margin-top:10px;color:var(--white);">Last updated April 17, 2026.</p>
+  <p style="margin-top:10px;color:var(--white);">Last updated April 23, 2026.</p>
 </div>
 <script>
   window.addEventListener('load', function() {
