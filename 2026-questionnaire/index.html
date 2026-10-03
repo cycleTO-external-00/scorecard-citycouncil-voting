@@ -2138,6 +2138,31 @@ searchResults.addEventListener('mousedown', e => {
 document.addEventListener('click', e => {
   if (!e.target.closest('.search')) hideResults();
 });
+
+let lastFrameHeight = 0;
+let frameHeightRequest;
+
+function reportFrameHeight() {
+  cancelAnimationFrame(frameHeightRequest);
+  frameHeightRequest = requestAnimationFrame(() => {
+    const frameHeight = Math.ceil(document.body.getBoundingClientRect().height);
+
+    if (frameHeight === lastFrameHeight) return;
+    lastFrameHeight = frameHeight;
+    window.parent.postMessage({ frameHeight }, '*');
+  });
+}
+
+window.addEventListener('load', reportFrameHeight);
+window.addEventListener('resize', reportFrameHeight);
+
+if ('ResizeObserver' in window) {
+  new ResizeObserver(reportFrameHeight).observe(document.body);
+}
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(reportFrameHeight);
+}
 </script>
 </body>
 </html>
