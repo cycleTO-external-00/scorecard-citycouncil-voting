@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<!--
+  DARK MODE: off, to match the scorecard. To let the page follow each visitor's
+  dark-mode setting, change data-dark-mode="off" to data-dark-mode="on" below.
+-->
+<html lang="en" data-dark-mode="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>2026 Municipal Election Candidate Questionnaire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap">
+  <style>
+    /* ---------- Colours and sizes ---------- */
+
+    :root {
+      --blue: #253F91;
+      --orange: #F7971F;
+      --magenta: #B83592;
+      --white: #ffffff;
+
+      --page-bg: #ffffff;
+      --band-bg: #f5f6f8;
+      --surface: #ffffff;
+      --surface-alt: #f5f6f8;
+      --text: #1a1a1a;
+      --text-muted: #666d75;      /* 5.2:1 on white, 4.6:1 on the grey chips */
+      --border: #e4e4e4;
+      --accent-text: #253F91;
+      --ui-blue: #253F91;
+      --ui-blue-text: #ffffff;
+      --border-strong: #8c939d;   /* search box, view switch, sheet handle (3:1 on white) */
+      --focus: #253F91;
+
+      --yes-text: #256A29;
+      --yes-bg: rgba(76, 175, 80, 0.15);
+      --no-text: #B71C1C;
+      --no-bg: rgba(244, 67, 54, 0.15);
+      --abstain-text: #555B61;
+      --abstain-bg: rgba(128, 136, 142, 0.12);
+
+      --font-body: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      --font-display: "Bebas Neue", "Oswald", "Arial Narrow", Impact, sans-serif;
+      --font-mono: "Roboto Mono", ui-monospace, Menlo, monospace;
+      --size-label: 12px;   /* small uppercase labels */
+      --size-small: 14px;   /* secondary text, pop-ups, lists */
+      --size-body: 16px;
+
+      --chip-width: 6.2em;
+      --logo-size: calc(clamp(36px, 5vw, 64px) * 4 / 3);
+      --logo-column: calc(var(--logo-size) + 24px);
+
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      color-scheme: light;
+    }
+
+    /* Dark colours, used only when <html data-dark-mode="on"> and the visitor's device is in dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root[data-dark-mode="on"] {
+        color-scheme: light dark;
+        --page-bg: #12151d;
+        --band-bg: #1a1e29;
+        --surface: #1a1e29;
+        --surface-alt: #222838;
+        --text: #eceef2;
+        --text-muted: #b4bac6;
+        --border: #2e3444;
+        --accent-text: #a9b8ea;
+        --border-strong: #6f7889;
+        --focus: #ffffff;
+
+        --yes-text: #6fcf73;
+        --yes-bg: rgba(76, 175, 80, 0.2);
+        --no-text: #ff7a70;
+        --no-bg: rgba(244, 67, 54, 0.2);
+        --abstain-text: #a3aab0;
+        --abstain-bg: rgba(128, 136, 142, 0.2);
+      }
+    }
+
+    /* ---------- Base ---------- */
+
+    *, *::before, *::after { box-sizing: inherit; }
+
+    html {
+      background: var(--blue);
+      scroll-padding-top: env(safe-area-inset-top, 0px);
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--text);
+      font: 16px/1.55 var(--font-body);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem calc(1rem + var(--logo-column)) 3rem 1rem;
+    }
+
+    /* Grey band behind the intro, search and switch (like the scorecard's filter area);
+       the races sit on white below it */
+    .top-band { background: var(--band-bg); }
+    .page-top { padding-bottom: 1.25rem; }
+    .page-top .controls { margin-bottom: 0; }
+    .page-races { padding-top: 1.5rem; }
+
+    /* ---------- Header ---------- */
+
+    .site-header {
+      background: var(--blue);
+      color: var(--white);
+      border-bottom: 4px solid var(--orange);
+    }
+
+    .site-header .inner {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 1rem 32px;
+    }
+
+    .logo {
+      position: absolute;
+      top: 40px;
+      right: 1rem;
+      display: block;
+      line-height: 0;
+    }
+
+    .logo img {
+      width: auto;
+      height: var(--logo-size);
+    }
+
+    .site-header h1 {
+      margin: 0;
+      padding-right: var(--logo-column);
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: 2px;
+    }
+
+    .site-header h1 span { color: var(--orange); }
+
+    .lede {
+      margin: 10px 0 0;
+      padding-right: var(--logo-column);
+      font-size: var(--size-body);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .lede p { margin: 0 0 0.6em; }
+    .lede p:last-child { margin-bottom: 0; }
+
+    .lede a,
+    .site-footer a {
+      color: var(--white);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    .lede a:hover,
+    .site-footer a:hover { text-decoration-thickness: 2px; }
+
+    /* ---------- Intro ---------- */
+
+    .intro {
+      margin: 0 0 1.5rem;
+      font-size: var(--size-body);
+    }
+
+    .intro p { margin: 0 0 0.75em; }
+    .intro p:last-child { margin-bottom: 0; }
+
+
+    /* ---------- "See the questions" ---------- */
+
+    .questions-all {
+      margin: 0 0 1.25rem;
+      border: 0;
+      border-radius: 0;
+      background: none;
+    }
+
+    .questions.questions-all > summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0;
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    @media (hover: hover) {
+      .questions.questions-all > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+    }
+
+    .questions.questions-all > .answer-key,
+    .questions.questions-all > ul { padding-left: 0; padding-right: 0; }
+
+    .questions.questions-all > .answer-key { padding-top: 0.5rem; }
+
+    .questions > summary {
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      color: var(--accent-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .questions > summary::before {
+      border-width: 4px 0 4px 7px;
+      border-left-color: currentColor;
+    }
+
+    .questions > ul {
+      margin: 0;
+      padding: 0 1rem 0.6rem 2.05rem;
+      list-style: none;
+      font-size: var(--size-small);
+      line-height: 1.5;
+    }
+
+    .questions li {
+      padding: 0.4rem 0;
+      border-top: 1px solid var(--border);
+      border-top: 1px solid color-mix(in srgb, var(--accent-text) 20%, transparent);
+    }
+
+    .questions li:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .pledge-name {
+      display: block;
+      margin-right: 0.25rem;
+      color: var(--accent-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pledge-where {
+      margin-left: 0.4rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    .answer-key {
+      margin: 0;
+      padding: 0 1rem 0.75rem 2.05rem;
+      font-size: var(--size-small);
+      line-height: 1.5;
+    }
+
+    .answer-key ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .questions .answer-key li {
+      padding: 0;
+      border: 0;
+      line-height: 1.6;
+    }
+
+    .answer-key .chip { vertical-align: 1px; }
+
+    /* ---------- Search ---------- */
+
+    .search {
+      position: relative;
+      max-width: 520px;
+      margin: 0 0 1rem;
+      scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    }
+
+    .search svg {
+      position: absolute;
+      top: 50%;
+      left: 0.8rem;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    #search-input {
+      width: 100%;
+      padding: 0.6rem 0.8rem 0.6rem 2.4rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+      appearance: none;
+    }
+
+    #search-input:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    #search-results {
+      position: absolute;
+      z-index: 20;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      max-height: 60vh;
+      margin: 0;
+      padding: 0.25rem 0;
+      overflow: auto;
+      list-style: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    #search-results li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+    }
+
+    #search-results li[aria-selected="true"],
+    #search-results li:hover { background: var(--surface-alt); }
+
+    #search-results mark {
+      background: none;
+      color: inherit;
+      font-weight: 700;
+    }
+
+    .result-race {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #search-results .no-match {
+      color: var(--text-muted);
+      font-style: italic;
+      cursor: default;
+    }
+
+    /* ---------- All Candidates / Responded Only ---------- */
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .controls-bottom { margin: 1rem 0; }
+
+    .view-switch {
+      display: inline-flex;
+      overflow: hidden;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+    }
+
+    .view-switch button {
+      padding: 0.5rem 1rem;
+      border: 0;
+      border-radius: 0;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .view-switch button + button { border-left: 1px solid var(--border-strong); }
+
+    .view-switch button[aria-checked="true"] {
+      background: var(--ui-blue);
+      color: var(--ui-blue-text);
+    }
+
+    .view-switch button[data-view="responded"][aria-checked="true"] {
+      background: var(--magenta);
+      color: #fff;
+    }
+
+    .view-switch button:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: -4px;
+    }
+
+    @media (hover: hover) {
+      .view-switch button[aria-checked="false"]:hover { background: var(--surface-alt); }
+    }
+
+    /* ---------- Data warning (only shown if a line can't be read) ---------- */
+
+    #data-warning {
+      margin: 0 0 1rem;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #e0b400;
+      border-radius: 6px;
+      background: #fff8d6;
+      color: #5c4a00;
+      font-size: var(--size-small);
+    }
+
+    #data-warning ul {
+      margin: 0.3rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    /* ---------- Races ---------- */
+
+    #races { overflow-anchor: none; }
+
+    details {
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      overflow: clip;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    }
+
+    /* The race's coloured stripe is painted as a background (not a border)
+       so an open comment can sit over it */
+    #races > details {
+      --stripe: var(--orange);
+      padding-left: 12px;
+      border-left: 0;
+      background: linear-gradient(to right, var(--stripe) 12px, var(--surface) 12px);
+    }
+
+    #races > details[open] { --stripe: var(--ui-blue); }
+    #races.responded-only > details[open] { --stripe: var(--magenta); }
+
+    summary {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      list-style: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    /* Every toggle uses the scorecard's ▶, which turns to point down when open */
+    summary::before {
+      content: "";
+      flex: none;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 5px 0 5px 8px;
+      border-color: transparent transparent transparent var(--text-muted);
+      transition: transform 0.15s;
+    }
+
+    details[open] > summary::before { transform: rotate(90deg); }
+
+    .race-name {
+      flex: 1;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .race-area {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .count {
+      display: inline-flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      gap: 0.3em;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .count b {
+      display: inline-block;
+      min-width: 1.05em;
+      margin-right: 0.15rem;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      text-align: right;
+      vertical-align: -0.12em;
+    }
+
+    .count-total {
+      display: inline-block;
+      min-width: 2ch;
+      text-align: right;
+    }
+
+    .race-body { border-top: 1px solid var(--border); }
+
+    .race-empty {
+      margin: 0;
+      padding: 1rem;
+      color: var(--text-muted);
+    }
+
+    /* ---------- Candidate table ---------- */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: var(--size-small);
+    }
+
+    th, td {
+      padding: 0.55rem 0.3rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    th:first-child { width: 26%; }
+
+    th:first-child, td:first-child {
+      min-width: 11rem;
+      padding-left: 0.6rem;
+      padding-right: 0.6rem;
+      text-align: left;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      vertical-align: bottom;
+    }
+
+    thead th {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 3;
+      background: var(--surface);
+      box-shadow: inset 0 -1px 0 var(--border);
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+
+    /* pledge names are blue like the other things you can tap */
+    .pledge-heading {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--accent-text);
+      font: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .pledge-heading:hover,
+    .pledge-heading[aria-expanded="true"] { text-decoration: underline; }
+
+    .pledge-heading:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Desktop: answers line up with the name, and "NAME COMMENTED" stays on one line
+       (running under the answers), so opening a comment never changes the row's height */
+    @media (min-width: 761px) {
+      .candidate td { vertical-align: top; }
+      .candidate td .chip { margin-top: 1px; }
+      .candidate td:first-child .comment-toggle { white-space: nowrap; }
+
+      /* keep an open comment close to the answers above it */
+      .candidate.has-comment:has(+ .comment:not([hidden])) td { padding-bottom: 0.4rem; }
+    }
+
+    .candidate { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 80px); }
+    .candidate:not(.no-reply) > td:first-child { font-weight: 700; }
+    .candidate.no-reply td:first-child { color: var(--text-muted); }
+
+    td[data-pledge] { cursor: pointer; }
+
+    .no-answer { color: var(--text-muted); }
+
+    .no-response {
+      color: var(--abstain-text);
+      font-size: var(--size-label);
+      text-align: center !important;
+    }
+
+    .no-response span {
+      display: block;
+      margin: 0 10px;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      background: var(--abstain-bg);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .no-candidates {
+      padding: 1rem !important;
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center !important;
+    }
+
+    #races.responded-only .candidate.no-reply,
+    #races.responded-only .candidate.no-reply + .comment { display: none; }
+
+    .candidate.is-found { animation: found 2.4s ease-out; }
+
+    @keyframes found {
+      0%, 40% {
+        background: rgba(247, 151, 31, 0.28);
+        background: color-mix(in srgb, var(--orange) 28%, transparent);
+      }
+      100% { background: transparent; }
+    }
+
+    /* ---------- Answer chips ---------- */
+
+    .chip {
+      box-sizing: border-box;
+      display: inline-block;
+      width: var(--chip-width);
+      max-width: 100%;
+      padding: 0.15rem 0.2rem;
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td .chip {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .chip-yes { background: var(--yes-bg); color: var(--yes-text); }
+    .chip-no { background: var(--no-bg); color: var(--no-text); }
+    .chip-abstain { background: var(--abstain-bg); color: var(--abstain-text); }
+
+    /* ---------- Comments ---------- */
+
+    /* Closed: a blue "COMMENTS" link. Open: a grey "NAME COMMENTED" heading.
+       The padding gives a finger-sized tap area; the negative margins cancel it out visually. */
+    .comment-toggle {
+      display: inline-block;
+      margin: calc(0.25rem - 0.6rem) -0.6rem -0.6rem;
+      padding: 0.6rem;
+      border: 0;
+      background: none;
+      color: var(--accent-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      line-height: 1.4;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+
+    @media (hover: hover) {
+      .comment-toggle[aria-expanded="false"]:hover span { text-decoration: underline; text-underline-offset: 3px; }
+    }
+
+
+    .comment-toggle::before {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin: 0 0.5rem 0.05rem 0;
+      border-style: solid;
+      border-width: 4px 0 4px 7px;
+      border-color: transparent transparent transparent currentColor;
+      transition: transform 0.15s;
+    }
+
+    .comment-toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
+
+    .candidate td:first-child .comment-toggle { display: table; }
+
+    /* the phone-card copy of the toggle sits after the answers */
+    td.comment-link { display: none; }
+
+    .candidate.has-comment td { border-bottom-color: transparent; }
+    .candidate.has-comment:has(+ .comment[hidden]) td { border-bottom-color: var(--border); }
+
+    .comment td {
+      position: relative;
+      padding: 0 0.6rem 0.8rem;
+      text-align: left;
+    }
+
+    /* no stripe alongside an open comment */
+    .comment td::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: -1px;
+      left: -12px;
+      width: 12px;
+      background: var(--surface);
+      box-shadow: inset 1px 0 0 var(--border);   /* keep the card's outline */
+    }
+
+    .comment-box {
+      padding: 0.75rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .comment p {
+      max-width: 70ch;
+      margin: 0;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+
+    /* ---------- Pledge pop-up ---------- */
+
+    #pledge-popup {
+      position: absolute;
+      z-index: 30;
+      max-width: min(340px, calc(100vw - 24px));
+      padding: 0.7rem 0.85rem 0.8rem;
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--ui-blue);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      font-size: var(--size-small);
+      line-height: 1.5;
+    }
+
+    .popup-title {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--accent-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-label);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 0.3rem;
+      right: 0.4rem;
+      padding: 0.2rem;
+      border: 0;
+      background: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .popup-answer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.4rem;
+      margin-top: 0.6rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .popup-answer strong { font-weight: 700; }
+    .popup-answer .chip {
+      width: auto;
+      padding: 0.15rem 0.5rem;
+    }
+    .popup-answer em { font-style: italic; }
+
+    /* On phones the pop-up becomes a panel that slides up from the bottom */
+
+    #pledge-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 29;
+      background: rgba(0, 0, 0, 0.35);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    #pledge-backdrop.is-visible { opacity: 1; }
+
+    #pledge-popup.as-sheet {
+      cursor: pointer;
+      position: fixed;
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: none;
+      max-height: 75vh;
+      overflow-y: auto;
+      /* left/right line up with the text inside the race cards */
+      padding: 1.6rem calc(21px + 0.85rem) calc(4.5rem + env(safe-area-inset-bottom, 0px)) calc(33px + 0.85rem);
+      border: 0;
+      border-top: 4px solid var(--ui-blue);
+      border-radius: 14px 14px 0 0;
+      box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
+      font-size: var(--size-body);
+      transform: translateY(100%);
+      transition: transform 0.22s ease-out;
+    }
+
+    #pledge-popup.as-sheet.is-visible { transform: translateY(0); }
+
+    #pledge-popup.as-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0.55rem;
+      left: 50%;
+      width: 2.5rem;
+      height: 4px;
+      margin-left: -1.25rem;
+      border-radius: 2px;
+      background: var(--border-strong);
+    }
+
+    #pledge-popup.as-sheet .popup-title { font-size: var(--size-label); }
+
+    #pledge-popup.as-sheet .popup-close {
+      top: 0.6rem;
+      right: calc(21px + 0.85rem - 0.4rem);
+      font-size: 22px;
+    }
+
+    /* ---------- Footer ---------- */
+
+    .site-footer {
+      background: var(--blue);
+      color: var(--white);
+      border-top: 4px solid var(--orange);
+      font-size: var(--size-small);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .site-footer .inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem calc(1rem + var(--logo-column)) 2.5rem 1rem;
+    }
+
+    .site-footer h2 {
+      margin: 0 0 0.5rem;
+      font-size: var(--size-small);
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .site-footer ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .site-footer li { margin: 0.3rem 0; }
+
+    .footer-scorecard { margin: 1rem 0 0; }
+
+    .footer-notes {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-notes p { margin: 0 0 0.5rem; }
+
+    #recent-changes {
+      margin: 0.25rem 0 0.5rem;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    #recent-changes p {
+      margin: 0 0 0.2rem;
+      font-weight: 700;
+    }
+
+    #recent-changes li { margin: 0.15rem 0; }
+
+    /* ---------- Phones and small tablets ---------- */
+
+    @media (max-width: 760px) {
+      :root { --logo-column: 0px; }
+
+      .page { padding: 16px 20px 2.5rem; }
+      .page-top { padding-bottom: 1rem; }
+      .page-races { padding-top: 1rem; }
+
+      /* tighter spacing above the races so the first one shows sooner */
+      .intro { margin-bottom: 0.85rem; }
+      .questions-all { margin-bottom: 0.85rem; }
+      .search { margin-bottom: 0.6rem; }
+      .controls { margin-bottom: 0.75rem; }
+      .site-header .inner { padding: 24px 20px 20px; }
+      .site-footer .inner { padding: 24px 20px 2rem; }
+
+      .logo { top: 24px; right: 20px; }
+      .logo img { height: 48px; }
+
+      .site-header h1 {
+        padding-right: 60px;
+        font-size: min(36px, calc((100vw - 150px) / 8.2));
+      }
+
+      .questions > summary { padding: 0.65rem 0.85rem; }
+      .questions > ul { padding: 0 0.85rem 0.5rem; }
+      .answer-key { padding: 0 0.85rem 0.75rem; }
+
+      .controls { gap: 0.5rem; }
+
+      .view-switch {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+      }
+
+      summary { gap: 0.6rem; padding: 0.75rem 0.85rem; }
+      .race-name { min-width: 0; white-space: nowrap; }
+      .race-area { white-space: normal; }
+      .count { font-size: var(--size-label); }
+      .count b { font-size: 1.3rem; }
+
+      /* The table becomes one card per candidate */
+      table, tbody {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      .candidate {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 17rem));
+        gap: 0.4rem 0.6rem;
+        padding: 0.8rem 0.85rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .candidate td {
+        position: static;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        text-align: left;
+      }
+
+      .candidate td:first-child {
+        grid-column: 1 / -1;
+        min-width: 0;
+        margin-bottom: 0.1rem;
+        padding: 0;
+        font-size: var(--size-body);
+      }
+
+      /* Each pledge and its answer sit together in a rounded grey tile you can tap */
+      .candidate td[data-label] {
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.3rem 0.35rem 0.3rem 0.6rem;
+        border-radius: 6px;
+        background: var(--surface-alt);
+        cursor: pointer;
+      }
+
+      @media (hover: hover) {
+        .candidate td[data-label]:hover { background: var(--border); }
+      }
+
+      .candidate td[data-label]::before {
+        content: attr(data-label);
+        flex: 1;
+        min-width: 0;
+        padding-top: 0.1em;   /* optically centres the capitals beside the chip */
+        color: var(--accent-text);
+        font-family: var(--font-mono);
+        font-size: var(--size-label);
+        font-weight: 500;
+        line-height: 1.25;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .candidate td .chip {
+        flex: none;
+        height: 1.5rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        line-height: 1.5rem;
+      }
+
+      .candidate.no-reply {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        padding-bottom: 0.8rem;
+      }
+
+      .candidate.no-reply td:first-child { margin: 0; }
+
+      .candidate td:first-child .comment-toggle { display: none; }
+
+      .candidate td.comment-link {
+        display: flex;
+        grid-column: 1 / -1;
+        margin-top: 0.35rem;
+      }
+      .candidate.no-reply .no-response { flex: none; }
+
+      .no-response span {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        background: none;
+      }
+
+      .candidate.has-comment:has(+ .comment:not([hidden])) { border-bottom: 0; }
+
+      .comment:not([hidden]) {
+        display: block;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .comment td {
+        display: block;
+        padding: 0 0.85rem 0.85rem;
+      }
+
+      tbody tr:last-child { border-bottom: 0; }
+    }
+
+    /* Narrow phones: one answer per line */
+    @media (max-width: 439px) {
+      .candidate:not(.no-reply) {
+        grid-template-columns: 1fr;
+        padding-bottom: 0.8rem;
+      }
+
+      .candidate td.comment-link { margin-top: 0.1rem; }
+    }
+
+
+    @media (max-width: 360px) {
+      summary { gap: 0.4rem; padding-left: 0.6rem; padding-right: 0.6rem; }
+      .count { font-size: 11px; }
+      .count b { font-size: 1.4rem; }
+    }
+
+    /* No sliding or turning animations for people who've asked for less motion */
+    @media (prefers-reduced-motion: reduce) {
+      summary::before,
+      .comment-toggle::before,
+      #pledge-popup.as-sheet,
+      #pledge-backdrop { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="logo" href="https://www.cycleto.ca" target="_blank" rel="noopener">
+        <img src="data:image/png;base64,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" alt="Cycle Toronto" width="120" height="120">
+      </a>
+      <h1>2026 MUNICIPAL ELECTION<br><span>CANDIDATE QUESTIONNAIRE</span></h1>
+      <div class="lede">
+        <p>Toronto’s 2026 municipal election is Monday, October 26. <a href="https://www.toronto.ca/city-government/elections/" target="_blank" rel="noopener">Find out more.</a></p>
+        <p>Local democracy and Toronto’s autonomy are under attack, but City Hall cannot stand still. This October, Cycle Toronto is asking candidates to pledge to make it easier and more convenient for more people to choose to ride a bike along our existing bike lanes and trails citywide.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+  <div class="top-band">
+  <div class="page page-top">
+    <div class="intro">
+      <p id="response-count"></p>
+    </div>
+
+    <details class="questions questions-all">
+      <summary>See the questions</summary>
+      <div class="answer-key"></div>
+      <ul id="all-questions-list"></ul>
+    </details>
+
+    <div class="intro">
+      <p>Search for a candidate or choose a race below. Select any pledge or answer to read it in full.</p>
+    </div>
+
+    <div class="search">
+      <label for="search-input" class="visually-hidden">Search a candidate</label>
+      <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18">
+        <circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M13 13l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="search-input" type="search" placeholder="Search a candidate" autocomplete="off" spellcheck="false"
+             role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+      <ul id="search-results" role="listbox" hidden></ul>
+    </div>
+
+    <div class="controls">
+      <div class="view-switch" role="radiogroup" aria-label="Show">
+        <button type="button" role="radio" data-view="all" aria-checked="true">All Candidates</button>
+        <button type="button" role="radio" data-view="responded" aria-checked="false">Responded Only</button>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <div class="page page-races">
+    <div id="data-warning" role="status" hidden></div>
+    <div id="races"></div>
+
+    <div class="controls controls-bottom">
+      <div class="view-switch" role="radiogroup" aria-label="Show">
+        <button type="button" role="radio" data-view="all" aria-checked="true">All Candidates</button>
+        <button type="button" role="radio" data-view="responded" aria-checked="false">Responded Only</button>
+      </div>
+    </div>
+  </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <h2>Cycle Toronto is also committed to working with City Council on:</h2>
+      <ul>
+        <li>Cycling Network Plan expansion despite the current provincial restrictions under Bill 60</li>
+        <li>Enhancing and connecting multi-use paths and trails, including along The Meadoway, The Loop, West Toronto Rail Path, West Scarborough Rail Trail, and Etobicoke Greenway</li>
+        <li>Aligning city by-laws around e-bikes and other micromobility vehicles pending provincial regulations, and advocating to the federal government on mandatory lithium-ion battery safety standards</li>
+        <li>Holding app-based delivery companies accountable for their riders and general safety, and focusing on education over enforcement</li>
+        <li>Reallocating limited police resources from harassing people on bikes towards working to achieve our Vision Zero objectives</li>
+      </ul>
+      <p class="footer-scorecard">See how members of the 2022–2026 City Council voted in <a href="https://www.cycleto.ca/2026scorecard" target="_blank" rel="noopener">Cycle Toronto’s Scorecard</a>.</p>
+      <div class="footer-notes">
+        <p>This questionnaire is maintained by Cycle Toronto and tracks responses from <a href="https://www.toronto.ca/city-government/elections/candidate-list/" target="_blank" rel="noopener">certified candidates</a> for the 2026 Toronto municipal election. Responses are not endorsements.</p>
+        <p>Cycle Toronto may accept late submissions or make changes to responses at its discretion.</p>
+        <p>Suggestions or corrections? <a href="https://www.cycleto.ca/contact-us" target="_blank" rel="noopener">Contact us.</a></p>
+        <p>Last updated <span id="last-updated"></span>.</p>
+        <div id="recent-changes" hidden></div>
+      </div>
+    </div>
+  </footer>
+
+<!--
+  CANDIDATE DATA
+  This is the only part that needs editing when responses come in.
+
+  One candidate per line:
+
+      Race | Last name, First name | answer | answer | ... | comment
+
+  Race       Mayor, or Ward 1 to Ward 25 ("Ward 04" also works).
+  Answers    Yes, No or Abstain. "I choose not to respond" and "Skip" also work,
+             and capitals don't matter. Leave the answers off entirely for
+             someone who hasn't responded.
+  Order      Mayor and most wards (5 answers):
+               Preserve! | Rebuild! | Upgrade! | Bike Share! | Safe & Passable!
+             Ward 4 adds a sixth: High Park!
+             Ward 14 adds a sixth: Reverse!
+             Wards 5, 8, 9, 12, 15, 16, 20 and 21 add a sixth: Eglinton!
+  Comment    Optional. Everything after the last answer. Type \n for a line
+             break. Quotes, apostrophes and | are fine.
+
+  Lines starting with # are ignored, and blank lines are fine.
+  The page sorts candidates and counts responses on its own.
+
+  Examples:
+      Ward 23 | Myers, Jamaal
+      Ward 23 | Myers, Jamaal | Yes | Yes | Yes | Yes | Yes
+      Ward 4  | Lastname, Firstname | Yes | Yes | No | Yes | Yes | Yes | Comment text…
+
+  UPDATED sets the "Last updated" date in the footer. Each NOTE line appears
+  under it as a recent change. Delete old notes whenever you like.
+-->
+<script type="text/plain" id="candidate-data">
+UPDATED: October 2, 2026
+Mayor | Abdulkadir, Imad
+Mayor | Abdulsalam, Bahira
+Mayor | Alexander, Chris
+Mayor | Atkinson, Jamie | No | No | No | Yes | No | I support cycling as an important part of Toronto’s transportation system, but I do not believe every street should be designed according to the same formula.\n\nOver the next term, I want Toronto to become much better at measuring how our streets actually work. We should look at people moved per hour, the amount of street space each mode requires, travel time and speed, peak and off-peak use, seasonal use, safety, transit, emergency access and accessibility.\n\nA bicycle can move a person using remarkably little street space, and where cycling volumes justify dedicated infrastructure, we should build safe, well-connected routes and maintain them properly year-round. I also support expanding Bike Share and better connecting cycling with transit.\n\nBut cycling cannot meet every transportation need. Seniors, people with disabilities, families, tradespeople, delivery workers and people travelling longer distances may depend on other modes. Our streets have to work for them too.\n\nThat is why I would not automatically convert every quick-build lane into permanent poured concrete or commit in advance to preserving every existing design regardless of how the corridor performs.\n\nInstead, I want Toronto to use better street design, protected infrastructure where appropriate, improved intersections, visibility and signalling, connected trails and multi-use paths, and new technology that makes vulnerable road users easier to see and protect.\n\nFor major corridors, I want Toronto to start asking a simple question: **How many people does each metre of street space move, and how long does it take them to get where they are going?**\n\nThe goal should not be more bike lanes or fewer bike lanes. It should be a safer, more accessible and more effective transportation system for everyone.
+Mayor | Bradford, Brad
+Mayor | Brown, Darrell
+Mayor | Buffey, Brian
+Mayor | Chow, Braeden | Abstain | Abstain | Abstain | Abstain | Yes | Not to happy with the city bikes, i know they can be much better.. I chose prefer not to say for some answers because a lot has to be evaluated and i believe there is room for a completely new approach. I am an avid cyclist.
+Mayor | Chow, Olivia
+Mayor | Choy, Logan
+Mayor | Clarke, Kevin
+Mayor | Collins, Paul
+Mayor | Cruze, Alex
+Mayor | Curto, Roberto | Yes | Yes | Yes | Yes | Yes | Bike lanes help make Toronto safer and more vibrant, and give people another way to get around, which can help reduce congestion. I would prioritize keeping the lanes we have safe and passable year-round, including through winter maintenance and construction. I’m cautious about promising new on-street lanes while the provincial government can override the City’s decisions and remove infrastructure we’ve paid to build. I’ll keep working to connect the cycling network and push for Toronto to regain control over its own streets.
+Mayor | Dean, Laura | Yes | Yes | No | Yes | Yes | I won Cycle Toronto’s Volunteer of the Year award in 2017 for my cycling advocacy, including a campaign to make the Bloor Street bike lane permanent. In my opinion, not all of the quick-build bike lanes need to be upgraded to include concrete barriers, especially given other pressing city priorities like getting transit moving. If the province removes parts of the bike lanes, they should be rebuilt to ensure the design is more acceptable to the local community (i.e. Etobicoke Lakeshore) to alleviate the ongoing and unnecessary culture war.
+Mayor | Desai, Habiba
+Mayor | Deville, Cory
+Mayor | Dorville, Wincess
+Mayor | Ellis, Laura
+Mayor | Fraser, Martin
+Mayor | Frederick, Alton
+Mayor | Gong, Edward
+Mayor | Haider, Faizan
+Mayor | Hall, Thomas
+Mayor | Handjis, Peter
+Mayor | Hartley, Jack
+Mayor | He, Heather
+Mayor | Kaaki, Mohamad
+Mayor | Kalkounis, Georgios
+Mayor | Kyrlangitses, Isidoros
+Mayor | Lamoureux, Michael | No | No | No | No | Abstain | I pledge to stop the densification of the city in order to stop making traffic congestion and cycling safety any worse.  While 2 lanes of vehicle traffic on arterial roads is my rule, I'm OK with exceptions such as Dundas Street east of the DVP and The Danforth to preserve those heavy use cycling lanes.  Street parking will have to be removed in some cases.  I pledge to work with cycling groups to configure next best alternative routes for lost cycling lanes, alternative safety measures and to build/connect more cycling trails in our ravines and corridors, etc.  I'll do and fund whatever we can reasonably do for cyclists, but within the context of maintaining historical traffic flow on arterial roads.
+Mayor | Lee, Rick
+Mayor | Levermany, Reagan
+Mayor | Mayanja, Eddie
+Mayor | McVie, Sarah
+Mayor | Mercieca, Francis
+Mayor | Osuji, Joseph
+Mayor | Parker, Odessa Paloma | Yes | Yes | Yes | Yes | Yes | I want to lessen the dependence on car travel within our city so we can boost the local economy, save the environment, and allow everyone to be more physically engaged with their city!
+Mayor | Prokos, Gus
+Mayor | Razi, Faisal
+Mayor | Rosen, Amy
+Mayor | Sanders, Lyall
+Mayor | Sayers, Naomi
+Mayor | Shusterman, Robert | Yes | Yes | Yes | Yes | Yes | cycling lanes are important they're a great way of getting exercise and it's also good for drivers because it forces them to be careful and drive better
+Mayor | Srivastava, Sandeep
+Mayor | Tang, Weizhen
+Mayor | Thompson, Joshua
+Mayor | Tong, Kuo Yu
+Mayor | Tunney, Jeffery
+Mayor | Weenen, Jack
+Mayor | Yohannes, Henoke
+Mayor | Yohannes, Leila
+Mayor | Zandkarimi, Mostafa
+Ward 1 | Abbey, Abraham
+Ward 1 | Adib, Ala'a
+Ward 1 | Babar, Saima
+Ward 1 | Brown, Chloe | Yes | Yes | Yes | Yes | Yes
+Ward 1 | Crisanti, Vincent
+Ward 1 | Hamilton, Norman | Yes | Yes | Yes | Yes | Yes | Norman Hamilton’s cycling priorities for the next term\n\n Make cycling safer in Etobicoke North. I will work with residents to identify dangerous\ncrossings and gaps in cycling routes, then press for safer intersections, clearer signs and\nbetter-maintained paths near schools, parks, transit and local businesses.\n\n Connect Ward 1 to the wider trail network. I will support progress on the Etobicoke\nGreenway and connections to the North Etobicoke Hydro Corridor trails, so residents can\nuse these routes for everyday trips as well as recreation.\n\n Keep expanding Toronto’s cycling network. I will support connections between major\nroutes and trails, including The Meadoway, The Loop, the West Toronto Rail path and the\nWest Scarborough Rail Trail. I will advocate for the City’s ability to make evidence-\nbased safety decisions under the current provincial restrictions.\n\n Set clear rules for e-bikes and other small vehicles. I will support practical City\nguidance as provincial rules develop and advocate for federal lithium-ion battery safety\nstandards.\n\n Hold delivery companies accountable. App-based companies should train riders,\npromote safe parking and take responsibility for practices that put riders and pedestrians\nat risk.\n\n Focus road-safety resources where harm is greatest. I support education and fair\nenforcement, with attention to speeding, dangerous driving and locations with serious\ninjuries. I will report back to Ward 1 residents on the improvements delivered.\n\nNorman Hamilton
+Ward 1 | Martino, Joseph
+Ward 1 | Masri, Nathen | Abstain | Yes | Yes | Yes | Yes | Nathen Mazri — Ward 1, Etobicoke North\n\nNathen Mazri believes a modern city must integrate cycling into urban planning from the very beginning. Copenhagen demonstrates how cycling can become part of everyday life rather than an afterthought.\n\nHe supports responsible cyclists, pedestrians and motorists alike. However, retrofitting bike lanes onto existing roads requires careful safety audits. Not every street is suitable, and infrastructure must account for collision risks, emergency access, traffic conditions and the needs of surrounding communities.\n\nNathen proposes Unified PRESTO, integrating Bike Share with public transit, including exploring 30 minutes of complimentary cycling for eligible transit-pass holders. He also wants to examine a connected cycling network extending across Etobicoke North and potentially to Pearson Airport.\n\nCycling is about more than commuting. It supports exercise, recreation, independence and affordable transportation—particularly when rising automobile insurance costs make car ownership increasingly expensive.\n\nHe supports safer, well-maintained cycling infrastructure, year-round maintenance and responsible enforcement, while ensuring sidewalks remain accessible to seniors, children and people with disabilities.\n\nHis principle is simple: cycling belongs in the city's original design, not as an afterthought. Where infrastructure already exists, audit it, improve it and build connections where they can be made safely.
+Ward 1 | Parmar, Hard
+Ward 1 | Santos, Kristian
+Ward 2 | Alexander, Jennifer
+Ward 2 | Andrachuk, Katie | Yes | Yes | Yes | Yes | Yes | Etobicoke Centre can be a place where people have more safe, practical choices for getting around. Many shorter trips have the potential to be made by bike: a parent taking their child to school, a family heading to the park, someone picking up a few things at a neighbourhood plaza, a teenager visiting friends, or a resident connecting to transit. Some of these trips are already comfortable to make by bike, while others are not because safe connections are still missing. Not every trip can or should be made by bike, but people should have real and desirable choices for how they move around our neighbourhoods.\n\nI hear frequently from residents about growing traffic and the effect it has on the comfort, safety, and quality of life of our neighbourhoods. As Etobicoke Centre and our city grows, we need a transportation network that gives people more ways to get around rather than assuming every trip can only be made by car.\n\nA connected cycling network for people of all ages and abilities is part of providing those choices. It needs to work not only for people who already cycle, but especially for those who would consider riding if they had a route they felt safe and comfortable using. The Etobicoke Greenway through the hydro corridor is an important opportunity to create a comfortable multi-use route through the ward and connect it meaningfully into surrounding neighbourhoods.\n\nLow-stress residential routes can make local cycling comfortable and enjoyable, but they cannot form a complete network on their own. Many shops, services, and transit connections are located on major streets. We cannot build comfortable routes through neighbourhoods only to leave people stranded at busy roads and large intersections, precisely where safe connections matter most.\n\nMy priority is completing the “last mile”: filling the gaps between neighbourhoods, transit, trails and major routes so cycling becomes a safe, practical option for more people in Etobicoke Centre.
+Ward 2 | Holyday, Stephen
+Ward 3 | Andrei, Mihaela
+Ward 3 | Internicola, Anthony
+Ward 3 | Morley, Amber | Yes | Yes | Yes | Yes | Yes | I am committed to making our streets safer for all road users and pursuing the City's Cycling  Network Plan. Cyclists need safe and efficient ways to travel through Etobicoke-Lakeshore, and I will continue to advocate to fill missing links and increase connectivity throughout Ward 3.
+Ward 3 | Opitz, Ted
+Ward 4 | Corcoran, Michael
+Ward 4 | Guerrera, Nadia | Yes | Yes | Yes | Yes | Yes | Yes | The province allocated $25M to Toronto to develop the cycling network we have, including Bloor, University, and Yonge lanes. The province is allocating the $48 M remove. I will advocate with any repeal or amendment should come adequate provincial funding to reinstall Toronto cycling infrastructure so it’s not on the backs of Toronto citizens or taxpayers.\n\nProgress on the High Park Movement Strategy will be presented to council in 2027. I would be advocating to protect green space while expanding access to the park for all users, including cyclists. I am open to a number of practical solutions including designing away conflicts between road users with separated spaces and bypasses for cyclists, and establishing dedicated times for recreational cycling.
+Ward 4 | King, Debbie | Yes | Yes | Yes | Yes | Yes | Yes | Safe, connected cycling infrastructure provides affordable, healthy and low-carbon transportation. We need to complete the network, close gaps and prioritize permanent infrastructure wherever possible. \n\nI also believe Toronto should explore appropriate time and space for high-performance and high-speed cycling. Recreation and sport are important parts of a healthy city, and cyclists training at higher speeds need spaces where they can do so safely without creating conflicts with people walking, commuting or riding at lower speeds. That means identifying appropriate routes and facilities where high-performance cycling can take place safely and predictably.\n\nLastly, decisions about Toronto’s transportation network should be made by Toronto, based on local evidence and community needs—not imposed by the province. I will work to build a cycling network that supports everyday transportation, recreation and sport while making our streets safer and more accessible for everyone.
+Ward 4 | McNally, Diana Chan | Yes | Yes | Yes | Yes | Yes | Yes | I support fully implementing the City’s Cycling Network Plan and accelerating the completion of remaining Major-City Wide Routes. \n\nIn terms of High Park, I have heard consistently from a broad-range of residents concerns about expanding car-free periods further until accessibility solutions are implemented. In the 2023 High Park Movement Strategy a key accessibility solution that was recommended to address accessibility concerns is the introduction of an accessible shuttle service to replace the trackless train. The City has not made progress in introducing a year-round accessible shuttle or comparable public transit service in High Park. This is something that I will work with community members to advance and implement, so that community concerns around access can be resolved.\n\nI will also implement the High Park Road Redesign work currently underway to design away conflicts and improve the safety of all park users.
+Ward 4 | Ogundipe, Bridget
+Ward 4 | Pham, Adam
+Ward 4 | Potega, Andy
+Ward 4 | Raponi, Vanessa | Yes | Yes | Yes | Yes | Yes | Yes | Cycling is interwoven into the culture of our neighbourhood. It represents a practical solution to congestion, public health, climate action, and civic pride. As a former triathlete and avid Bike Share Toronto user, I can attest that it’s also a great source of exercise and a fantastic way to experience the city. It must be defended accordingly. \n\nMy broader philosophy on cycling is rooted in a belief that we need a holistic set of approaches to low-carbon transportation, with cycling as one critical prong. \n\nThat means:\n\nProtected, physically separated bike lanes in all instances. \nImplementation of new bike lanes subject to community consultation and rigorous cost-benefit analysis\nA focus on harmony across multimodal transportation: \n\nSafety is non-negotiable for all road users. As an engineering manager, I know the importance of designing processes and products that address a demonstrated demand that ensures maintenance is cost-effective. Improving transit access and reliability alongside cycling infrastructure is an important tool in relieving congestion and expanding low-carbon options across the board.\n\nFinally, one of the main pillars of my campaign is intergovernmental relations. I am deeply frustrated that a consequence of municipalities being a creature of the province is that we don’t have sufficient control over policies which impact us. We've seen bike lanes become a pawn in the last few years. It is my mission, if elected, to work across all levels of government to push back on all constitutional decisions which override what is best for our constituents. I demonstrated this with my advocacy against the recent Billy Bishop expansion threat. Toronto's challenges are unique enough that Queen's Park should not be stepping in to make them worse. We need to protect the City of Toronto Act to increase autonomy at the municipal level.
+Ward 4 | Weber, Holly | Yes | Yes | Yes | Yes | Yes | No | I would like to clarify my response to question 6, I want to ensure that the park remains accessible and is in compliance with the AODA.  I fully support redesigning the current roads to ensure that everyone can move around the park safely.
+Ward 4 | Yuen, Steve | Yes | Yes | No | Yes | Abstain | Abstain | Cyclist, children, pets , seniors...including responsible drivers need to respect and yield to the lesser individual/ vehicle including all motor/ electric bikes. Licencing for a minimum age 16 or over should be mandatory controlled by the province with the Toronto City council.\n\nplease got to steveyeun.ca\n\nits a 4 way street for all of US in the GOOD NEIGHBOURHOOD!
+Ward 5 | Ali, Sharmarke
+Ward 5 | Boateng, Matthew
+Ward 5 | Di Giorgio, Daniel
+Ward 5 | Farah, Maryama
+Ward 5 | Mawel, Ahmed
+Ward 5 | Nunziata, Frances
+Ward 5 | Obasogie, Nekpen
+Ward 5 | Padovani, Chiara | Yes | Yes | Yes | Yes | Yes | Yes | I love riding my bike to get around, but I also know how dangerous it can be in this city. In 2023, I was hit by a truck while riding my bike through Weston and Lawrence intersection. I’m lucky to be alive, and the experience has reinforced my commitment to making our roads safe for all users, from drivers to pedestrians. By protecting and expanding bike lanes and multi-use pathways in York South-Weston, I will work to make our neighbourhoods - and this city - safer, healthier and better connected.
+Ward 5 | Phillips, Sileen
+Ward 6 | Artamonov, Alexander
+Ward 6 | Irving, Conroy | Yes | Yes | Abstain | Abstain | Yes | I intend to work toward practical improvements that can be delivered within available budgets while pursuing additional funding and partnerships where appropriate. My goal for the next term is measurable progress: more connected routes, safer crossings and intersections, better maintenance, and a transportation network in which choosing to cycle is a safe and convenient option.
+Ward 6 | Pasternak, James
+Ward 7 | Antwi, Lorna
+Ward 7 | Coombs, Amanda
+Ward 7 | Perruzza, Anthony | Yes | Yes | Yes | Yes | Yes
+Ward 8 | Colle, Mike | Yes | Yes | Yes | Yes | Yes | Yes | Mike's voting record speaks for itself.
+Ward 8 | Grade, Liz
+Ward 8 | Maiolo, Domenico
+Ward 8 | McDonald, Jason
+Ward 8 | Torrone, Enzo | Abstain | Abstain | Abstain | Abstain | Abstain | Abstain | The reason for my I choose not to respond is not because I don’t support the idea of bike lanes because I think that we should have all the amenities possible in a city like Toronto; however I would like to see a much safer system that keep cars, bicycles and pedestrians completely separate. With the amount of redevelopment going on in Toronto there is a possibility of achieving this. This method would allow the space needed for traffic to flow, bycycles to be ridden and a safe walkable pedestrian walk way
+Ward 8 | Trayes, Daniel | Yes | Yes | Abstain | Yes | Yes | Yes | I am not a biker. I do however live in a neighbourhood where bike lanes run north,south,east &west. It works here but doesn't in all communities in Ward 8. \nI believe we need to keep things safe while taking input from all involved. Community consultation & actual results are needed YESTERDAY.
+Ward 9 | Bravo, Alejandra | Yes | Yes | Yes | Yes | Yes | Yes | Supporting community-based organizations and mobilization for cycling and pedestrian safety, and implementation of the full Cycling Network Plan.
+Ward 9 | Jansen, Ashley
+Ward 9 | Martins, Marco
+Ward 9 | Simon, Neil
+Ward 10 | Cunningham, Ian | Yes | Yes | Yes | Yes | Yes | I support bike lanes and the important role they play in providing safe transportation options. New bike infrastructure should be planned with a balanced approach that considers cyclists, transit riders, pedestrians, motorists, and local businesses alike.
+Ward 10 | Ding, Xue
+Ward 10 | Hoàng-Lefranc, Andi | Yes | Yes | Yes | Yes | Yes | If elected, one of my priorities is to make sure neighbours are able to navigate the City as easily, safely, and efficiently as possible. This means fighting to protect our current bike lane infrastructure and expanding our cycling network. As a daily cyclist, the City's response to the unilateral actions of the provincial government to remove the City's bike lanes has been far from satisfactory. Instead of standing side-by-side with Cycle Toronto and other cycling activists in their legal challenge against the province, our City's leaders opted for a wait-and-see approach backed by strongly worded statements. In addition to the forced removal of speed cameras, Toronto's streets are set to become much more dangerous for cyclists and pedestrians alike.\n\nThough I appreciate that municipalities are creatures of provincial statute, this does not bar our City's leaders from using the weight of the office they hold to preserve and expand our bike lane network. As a lawyer, if I am elected I am wholly committed to exploring all options to support an appeal of the recent Ontario Court of Appeal's decision that allowed the province to undermine the democratic voice of our neighbours. Further, given how Toronto is the economic engine of Canada, let alone Ontario, I intend to advocate for greater autonomy over city governance from the province, so that the City can be better immune to any potential anti-democratic acts by our current or future provincial governments.
+Ward 10 | Kassir, Bashar | Abstain | Abstain | Abstain | Abstain | Yes | My approach to transportation is based on safety, quality of life, and responsible road sharing. I see cycling as both a quality-of-life and safety issue. Downtown Toronto has narrow, congested streets, and people need to share them safely—whether walking, cycling, taking public transit, or driving.\nI support safe, connected cycling routes. A cyclist should not be forced into unpredictable traffic because a cycling route suddenly ends, just as drivers should not be expected to navigate around vehicles illegally stopped or idling in a designated cycling facility.\nMy priority is therefore to make the cycling network function properly through proactive compliance enforcement, consistent maintenance, safe construction zones, and action against vehicles blocking cycling infrastructure. Infrastructure is only effective when it is maintained, connected, and respected.\nI also support appropriate regulation and enforcement of e-bikes and other micromobility vehicles to ensure that their use is safe and compatible with other road and public-space users. As outlined in my safety platform, I believe in proactive compliance through education, prevention, and consistent enforcement of existing rules. \nAs a City Councillor, I would focus on practical improvements that make cycling safer and more predictable while maintaining a broader focus on mobility, enforcement, and quality of life for all Ward 10 residents.
+Ward 10 | Malik, Ausma | Yes | Yes | Yes | Yes | Yes | I remain clear in my opposition at City Council to the Ford government’s overreach and decision to tear up key cycling lanes in our downtown. I will continue to fight alongside local residents and advocates at CycleTO as they oppose this decision in the courts.\n\nAdvancing cycling infrastructure is a key part of making roads safer for everyone. I’ve worked with staff and communities on the implementation of new cycling infrastructure across our downtown communities, including on Wellington Street, Peter Street/Blue Jays Way, Palmerston Blvd/Tecumseth St, Portland St/Dan Leckie Way, The Esplanade/Mill St, and upgrades to the lanes on Richmond St and Adelaide St. I’ve also fought to protect cycling lanes wherever possible in new housing development and other construction projects. \n\nI will continue to support cycling infrastructure to better connect Torontonians through expediting and providing full funding for the implementation of our Cycling Near Term Implementation Program, and advancing exploration of new local opportunities, including holding firm on my request to City staff to assess options for new cycling lanes in Liberty Village on the forthcoming Liberty New Street.\n\nI’ll keep advocating for maintenance and upgrades to existing cycling infrastructure in Ward 10, including protected infrastructure and swift snow clearing of bike lanes in winter to protect cyclists and all road users.
+Ward 10 | Nash, Paul | Yes | Yes | Yes | Yes | Yes | I'll make evidence-based decisions concerning the design of lanes and intersections, including the installation of physical barriers to separate bike lanes from fast moving vehicle lanes.
+Ward 10 | Neemuchwala, Husain
+Ward 10 | Vashistha, Aanchal
+Ward 11 | Courtis, Keenan | Yes | Yes | Yes | Yes | Yes | While bike lanes are a major topic this election and deserve our attention and effort, bikeshare expansion remains undercapitalized to meet demand. The only limit on usage is system capacity. I will push to cut the expansion timelines in half and rapidly scale up infrastructure to meet demand.
+Ward 11 | Hawkes, Terri
+Ward 11 | Layton, Mike | Yes | Yes | Yes | Yes | Yes | As the Councillor who fought for and oversaw the installation of bike lanes on University and Bloor in Ward 11, I am unequivocally opposed to the Ford government’s overreach and decision to tear up key cycling lanes in our downtown.\n\nI will leverage any platform to build new coalitions– engaging suburban and rural communities on the cost and impact of the lane removal to apply pressure on the Province.\nI have a track record of two decades of environmental leadership.  I cycle across University–Rosedale and our City every day. Residents can trust me to keep fighting alongside residents and advocacy groups like Cycle Toronto as we challenge this ruling in court. I’ve fought Doug Ford before, and I will do it again. \n\nI will continue to champion new cycling infrastructure, through expediting and providing full funding for  the implementation of our Cycling Near Term Implementation Program. I’ll remain a voice fighting for maintenance and upgrades to existing cycling infrastructure in Ward 11, including protected infrastructure and swift snow clearing in winter, and protecting bike lanes wherever possible in new housing development and construction.
+Ward 11 | Lemke, Karina
+Ward 11 | Li, Alice | Abstain | Abstain | Abstain | Yes | Yes | Queen's Regulations and Orders (QR&O) Article 19.44, 19.36, and 19.37 outline the rules that apply to political activities and the disclosure of information and opinions. The choice to not respond is not meant to signal a lack of interest, understanding, or care. \n\n  I immigrated to Toronto from a city where large-scale cycling infrastructure has facilitated safety, sustainability, mobility, and growth. I have seen firsthand international examples of how cycling can be an important part of a modern transportation system.  Toronto’s population is growing and our road space is limited. We must work together to share the roads and respect each other.   \n\nDifferent cycling facilities have different designs and levels of physical protection, and the safety experience can vary depending on local context. My platform focuses on improving transportation but with safety as a priority. I support the goal of improving and making cycling infrastructure safer and more durable, while wanting each location evaluated based on safety, design, cost, local conditions, and the needs of other road users. There’s more nuance to this, and there is more to consider beyond just a yes-or-no blanket answer. \n\nToronto City Council directed Transportation Services to report in Q1 2027 on opportunities to upgrade quick-build cycling facilities to permanent materials. So that deadline has not yet passed. \n\nThe success of new initiatives in the city depends on thoughtful implementation and thorough review of local context. Bloor, Yonge, and University are particularly important examples because subway lines run directly beneath these corridors. When subway service is disrupted and replacement shuttle buses are required, that creates a special circumstance. I would support having clear protocols that allow temporary road-priority measures for shuttle buses during major TTC disruptions, so that passengers can continue moving through the city until regular subway service resumes.\n\n  This brings me back to another relevant discussion: concrete numbers. When road space is limited, we also need to understand how different transportation options perform in terms of capacity, reliability, accessibility, and the amount of road space they require. I support decisions based on factual data and measurable outcomes.  Furthermore, we should think carefully before spending public money to build infrastructure and then spending additional money to undo it. \n\n After door-knocking across Ward 11, I've heard a range of perspectives from residents. That reinforces for me why meaningful community consultation matters.   I welcome further discussion and engagement with the community.
+Ward 11 | Lieu, Huy
+Ward 11 | Pileri, Gian | Yes | Yes | Yes | Yes | Yes | Cycling should be a safe, affordable and practical way to get around Toronto. In Ward 11, I want to protect existing bike lanes, connect routes that have gaps and keep them safe throughout the year.\nI support keeping the protected bike lanes on Bloor, Yonge and University, and rebuilding any sections removed by the province once the law allows it.\nI will work to replace temporary barriers with permanent protection, starting with the most dangerous locations. Wherever possible, this work should happen alongside planned road repairs. Designs must also allow people to reach transit stops safely, accommodate deliveries and make snow clearing easier.\nBuilding bike lanes is only part of the job. The City must keep them clear of snow, repair damage promptly and take consistent action against vehicles blocking them. During construction, people walking, using wheelchairs or cycling need safe routes, clear signs and contractors who are held responsible when those routes are blocked.\nI support expanding Bike Share, keeping it affordable and making sure bikes and docking spaces are available where people need them. I will also push to include Bike Share in the One-Fare program, making it cheaper to combine cycling with public transit.\nResidents should know what improvements are planned, what they will cost and when they will be finished. I will listen to residents, people with disabilities, businesses and transportation experts, explain decisions and report on progress.\n\nMy goal is a proactive City Hall that listens, explains, and delivers.
+Ward 11 | Viret, Paul | Yes | Yes | No | Yes | Abstain | I like the quick build bike lanes
+Ward 11 | Yoon, Diana | Yes | Yes | Yes | Yes | Yes | As your City Councillor, I am committed to maintaining and upgrading our cycling infrastructure and defending it from attacks from Premier Ford. These proposed removals are a waste of taxpayer dollars. \n\nSo many people I know, such as my closest friends, members of my team and my community at large rely on bike lanes, particularly the Bloor, Yonge, and University lanes. Bike lanes are critical to making sure everyone in the city is able to get around safely, and every kilometre of bike lanes are worth preserving. As other major cities across the globe are expanding their cycling infrastructure, Toronto cannot go backwards. Ward 11 has the most extensive cycling infrastructure in the entire City and I support the expansion of bike lanes and increased connectivity. \n\nI also hear safety concerns from cyclists, pedestrians, and drivers about motorized vehicles, such as e-bikes, in bike lanes. I will go after app-based delivery companies that put their workers in harms’ way by incentivizing unsafe e-biking. We must expand educational efforts so that cyclists and e-bike users share the road safely with pedestrians and cars. We also need to implement the City’s Vision Zero strategy so there are no deaths due to unsafe streets. \n\nWe are a growing city and we cannot expect everyone to drive within our existing road infrastructure. We need to create options for alternate modes of transportation, including transit, walking, and cycling.
+Ward 12 | Cottrell, David | Yes | No | No | Yes | Yes | No | I support a safe, connected cycling network and believe cycling should be a practical transportation option alongside transit, walking and driving. I would support protecting existing Council-approved infrastructure, expanding Bike Share Toronto, keeping cycling routes usable through the winter, and ensuring construction and illegally stopped vehicles do not create unnecessary dangers for people cycling.\n\nWhere I will not commit is to automatically approving every future design before seeing the evidence. Road space is limited, and decisions can affect transit, accessibility, emergency access, local businesses, parking and traffic on surrounding neighbourhood streets. I want those impacts examined rather than assuming one design is appropriate everywhere.\n\nSimilarly, I would not automatically rebuild every facility removed by the Province in exactly its previous form, convert every quick-build lane to concrete, or commit today to every element of eglintonTOday regardless of conditions when provincial restrictions change. I would review safety data, usage, accessibility, traffic impacts, costs and community feedback and support designs that provide the strongest overall result.\n\nMy goal is not to pit cyclists against drivers, pedestrians or transit riders. Toronto needs a transportation network where people have realistic choices and where infrastructure is designed around safety, reliability and how streets actually function.
+Ward 12 | Kalimbet, Jenny
+Ward 12 | Kamal, Ahmed
+Ward 12 | Matlow, Josh
+Ward 12 | Murphy, Bob
+Ward 12 | Nadimi, Mina
+Ward 13 | Cadeau, Joe
+Ward 13 | Cai, Tom | Yes | Yes | Yes | Yes | Yes | Proper signaling for bike users to not have to fight with cars for access.
+Ward 13 | Davis, Victoria | Yes | Yes | Yes | Yes | Yes | I intend to maintain the bike lanes to keep riders safe, as well as explore more options to expand the safety onto more streets.
+Ward 13 | Harris, Morgan | Yes | Yes | Yes | Yes | Yes | To develop new bike infrastructure and restore that infrastructure where it has been removed. Find new solutions to enhance road safety for cyclists.
+Ward 13 | Khogali Ali, Walied
+Ward 13 | MacLeod, Norman | Yes | Yes | Yes | Yes | Yes | Bicycle lanes are currently not risk free. Untill the city follows my lead to secure safety with beautiful concrete barriers,  with art work, I will fight. I will reason for our safety in the bike lane. \nIntroduce wide spread slip surface grip. Bicycle traffic lights may turn dangerous intersections safe. \nVictory for People \nElect Norman MacLeod Councilor Ward13.
+Ward 13 | Marshall, Cleveland
+Ward 13 | Moise, Chris | Yes | Yes | Yes | Yes | Yes | Cycling is one of the ways we make Toronto Centre more livable, more affordable to get around, and more connected. Over the past four years, I am proud of what we have been able to deliver together.\n\nWe expanded the cycling network with new Cabbagetown Cycling Connections and broader city-wide infrastructure, adding 7.5 kilometres of new bike lanes across Toronto Centre alone. We also significantly expanded Bike Share, adding e-bikes and regular bikes and installing over 350 new docks to meet the growing demand we are seeing from residents who want a reliable, affordable way to move through the neighbourhood.\n\nBut there is more to do.\n\nFirst, I will continue upgrading bike lanes across Toronto Centre to ensure they are all protected. Paint on pavement is not enough. Cyclists deserve infrastructure that keeps them safe, and I will keep pushing until that standard is met throughout the ward.\n\nSecond, I will work to align city by-laws around e-bikes and other micromobility vehicles as provincial regulations develop, and I will advocate to the federal government on mandatory lithium ion battery safety standards. As these vehicles become more common on our streets and in our buildings, we need rules that keep everyone safe.\n\nThird, I believe we need to reallocate limited police resources away from enforcement actions that target people on bikes and redirect that energy toward our Vision Zero objectives. Every life lost on our streets is preventable.\n\nCycling is not just a transportation issue. It is a safety issue, a climate issue, and an equity issue. I am committed to getting this right for every cyclist in Toronto Centre.
+Ward 13 | Stikuts, Curran | Yes | Yes | Yes | Yes | Yes | As a dedicated cyclist I'm committed to improving Toronto's cycling infrastructure and to continuing to move towards Vision Zero Goals. In Toronto Centre, I am committed to improving east-west connections on Gerrard/Dundas to better connect the Downtown East to the East End, and to completing the bike lanes east of Church St. on The Esplanade. I am also committed to advocating for the resurfacing of neglected stretches of the Wellesley bike lanes, and to increased funding for Bike Share, with a particular focus on increasing rebalancing capacty.
+Ward 13 | Tate, Daniel
+Ward 13 | Ward, Nicki | Yes | Yes | Yes | Yes | Yes | In Toronto Centre - Ward 13, cycling infrastructure is not a lifestyle choice , it's part of basic transportation. For residents without cars, parents managing school runs, workers commuting across the ward, seniors, people with mobility devices, and people like me who can't rely on personal vehicles, safe bike lanes are part of the operating system that keeps the city (and people) moving.\n\nAs someone who has seen European models work, I will not treat cycling as a nice-to-have. \n\nCurrent cycling "infrastructure" is piecemeal. Disconnected segments rather than integrated networks compromise safety and create friction with other road users. Bill 60 was political theatre. The province removed infrastructure Council approved because it could. I will protect Bloor, Yonge, and University and rebuild what was torn out. That's restoring local control and proving residents their city councillor stands up to Queen's Park.\n\nUpgrading quick-build lanes to permanent concrete infrastructure matters because predictable environments reduce conflict and improve compliance for everyone. Temporary solutions become excuses for reversal. Bike Share's growth requires One-Fare integration: mode-shifting, not ideology. Winter maintenance on bike lanes is equity work. When snow isn't cleared, people abandon cycling for cars or transit. Neglected infrastructure tells residents: this doesn't matter. I won't run that city.\n\nThe broader network expansion means connecting paths, upgrading trails, holding delivery companies accountable for rider safety, and shifting enforcement toward Vision Zero. That's integration, and people-first advocacy.\n\nIf, like me, you believe that infrastructure isn't about lifestyle choices or ideology. It's about access... And that access is non-negotiable... I would value your vote for City Councillor.
+Ward 14 | Ahmad, Maqsood
+Ward 14 | Chapelle, Susan | Yes | Yes | Yes | Yes | Yes | Yes | I grew up riding through Ward 14 before we had bike lanes. Now my dad uses them at 86. That is what safe street design means to me: giving people the freedom to get around at every age.\n\nI support connected, protected cycling routes and Vision Zero. On the Danforth, I want to improve the lanes with better loading, crossings and access for people with disabilities. The people who walk, ride, drive and run businesses here should help shape those changes. My dad should be able to ride safely, and so should the next generation growing up in this ward.\nto follow my riding adventures over years: https://www.strava.com/athletes/2316503
+Ward 14 | Connor, Michael
+Ward 14 | Corcoran, Dennis
+Ward 14 | Dagenais, Robb
+Ward 14 | De Marco, Peter
+Ward 14 | Ehrhardt, Sara | Yes | Yes | Yes | Yes | Yes | Abstain | Question 6 should ultimately be two questions. For Jones, the current configuration is not ideal, and is not working for cyclists or transit riders. It’s clear that the process, with new information emerging partway through, was not helpful. Many Toronto-Danforth residents supported the project while residents in the immediate vicinity felt concerned that information changed partway through the process. This created an adversarial atmosphere that was not helpful for the long term goal of creating a safer cycling network. However I cannot, in good faith, agree to spending money to redo work that has already been completed. Jones will have to be redone due to the damage caused by Metrolinx heavy trucks. When that is scheduled, I am committed to having a stronger consultation process, with all the information upfront, and arriving at a better design. \n\nFor Logan and Carlaw, there was also evidently confusion about accessibility and safety impacts from the proposal. If elected, I will seek to advance a genuine community discussion, with all the information presented. Connecting the Cosburn lanes to Danforth makes sense, and I am committed to finding a configuration on Logan/Carlaw that works for everyone.
+Ward 14 | Fawcett, George | Yes | Yes | Yes | Yes | Yes | Yes | I pledge to fight strongly for more safe, protected, and better-maintained bike lanes. Here in Ward 14 Toronto-Danforth, we have routinely seen our bike lane bollards run over and left unreplaced for years, leading to unprotected stretches long enough for cars to stop or use bike lanes as turning lanes. We have to commit to doing it right, not half-hearted solutions.\n\nI also think that in order to strengthen the sense of community around bike lanes, including for non-cyclists, we need to: 1) reject the rhetoric of politicians trying to stoke more "culture wars" for political gain and launch an education campaign about how a safe and extensive bike lane network provides immense benefits for the entire city, not just cyclists; and 2) work to beautify our bike lanes with boulevard and tree barriers where safe and possible, paint them, and better maintain them. Too often, our bike lanes look like temporary, haphazard installations; I believe that more effort to make them a beautiful highlight of our streetscapes would significantly raise public support and contribute to a stronger sense of community.
+Ward 14 | Fragedakis, Mary
+Ward 14 | Kladitis, John
+Ward 14 | Mitchell, Michael | Yes | Yes | Yes | Yes | Yes | Yes | Keep our bike lanes. Add more bike lanes.
+Ward 14 | Sa'd, Caryma
+Ward 14 | Saxe, Dianne | Yes | Yes | Yes | Yes | Yes | Yes | I am Council’s cycling champion. Cycling is the most affordable, healthiest, and often the fastest way to get around Toronto. It is a key element of reducing congestion, improving air quality, and fighting climate breakdown. It offers independence to people of all ages, including those who can’t afford to, or are unable to drive. It supports local small businesses and is a key part of attracting knowledge industries to Toronto. \nIt takes remarkable courage, consistency, and conviction to get bike infrastructure built in Toronto despite the intense pressure to put cars first. I am proud of my record building and defending safer bike infrastructure on Bloor, on Avenue Road, on Harbord/Hoskins, on Palmerston, and at Toronto’s first protected intersection, St. George and Bloor. And it requires daily vigilance by a Councillor who cycles to keep that bike infrastructure safe, passable, in decent repair, ploughed, salted and unobstructed by construction or vehicles. I provide that diligence and I turn it into action through carefully nurtured relationships with those who do real-world maintenance and enforcement, so that they understand cyclists’ needs and take them seriously.\nBecause of my work, bike lanes are now inspected by people on bikes; Transportation admits that bike lanes must be ploughed to bare pavement to be passible; obstruction ticketing has soared; pavement is better repaired; safety markings are restored faster; there is more bike parking; fast, heavy motorcycles will be kept out of bike lanes;  and bylaw enforcement officers will get basic training.\nAnd I am proud of my support for the remarkable expansion of BikeShare, Toronto's best bargain, and for giving the freedom of the city to low-income TCHC tenants through a $5/ year BikeShare membership.
+Ward 14 | Stackhouse, Devyn | Yes | Yes | Yes | Yes | Yes | Yes | I'd be framing the city bike share program as an essential service, not a source of revenue. Pursuant of that goal, I'll investigate how we can improve access for low-income Torontonians. There's technical mojo I'd need to catch up for more specifics.\n\nAnd this may be unpopular, but I support a zero tolerance crack-down on stand-up e-scooters and e-dirt bike. The evidence against these two particular micro mobility devices is conclusive. Alongside, a trade-in program for low-income folks. Cyclist and pedestrian safety is at the core of this proposal.\n\nI'm also personally very interested in velo-cars (pedal/electric), and I'd love to host community events introducing them to the city. Moving bodies are healthy bodies, and it's our job to make active transport as safe and desirable as possible.
+Ward 14 | Stevens, Jason
+Ward 14 | Tetreault, Christiane
+Ward 14 | Voutsinas, Maria | Yes | Yes | Yes | Yes | Yes | Yes | Bike lanes themselves are a great way to encourage healthy and efficient transportation in the inner city.  They are best when they are on streets and roads that connect the users to the places that they need to go and when they are integrated with transit.  They are also not appropriate in every part of the city.  Bike lanes are not part of a war on cars and they are not a meaningful contributor to traffic problems in our city.  They are part of a holistic strategy to make our streets safe and efficient for everyone who uses them. With that in mind, I intend to ensure that bike lanes and cycling continue to be an important option for Toronto residents to get around the city for work and pleasure.
+Ward 14 | Walcott, Denise | Yes | Yes | Yes | Yes | Yes | Yes | I support safe, connected cycling infrastructure that protects cyclists, pedestrians and all road users. Toronto research found that after cycle tracks were installed, the collision rate for cyclists decreased by 38 percent on those streets and by 35 percent in the surrounding area, even as cycling activity increased. This demonstrates why protected infrastructure matters.\n\nI support adding physical protection to the existing painted bike lanes on Jones Avenue.\n\nMy “Yes” regarding Logan and Carlaw supports moving this important cycling connection forward, but it is not a blanket approval of every design detail. The original proposal was revised after residents raised concerns about access, traffic changes and parking. The revised design would not remove a vehicle lane, but it would change which side of the street permits parking and could affect some parking spaces on Carlaw.\n\nBefore implementation, I would review the full consultation results, staff safety analysis and outstanding concerns raised by residents. I would work with City staff, residents, businesses and cyclists to determine whether reasonable design adjustments could address those concerns without compromising safety or leaving a gap in the cycling network.\n\nOver the next term, I would support protected cycling infrastructure. I would also prioritize year-round bike-lane maintenance, safer construction zones, action against vehicles blocking bike lanes and better connections among cycling routes, Bike Share and public transit.\n\nMy goal is to create safer streets for everyone.
+Ward 15 | Chernos Lin, Rachel
+Ward 15 | Sharp, Sheena | Yes | Yes | Abstain | Yes | Yes | Yes | I am not happy with the design of bike lanes in general: planting that obscures vision, barriers that keep you in and make it hard to pass, a  different design each new installation. objects in the lanes not removed for days. These are basics that we need to work on. \n\nI think the goals is to make cycling viable transportation, and I don't cycle in winter due to safety. i fell in front of a streetcar. I may not be your benchmark cyclist: need to dress for work, not really athletic, electric conversion bike, but history of cycling commuting so interested in improving the system so people like me can cycle more.
+Ward 15 | Tsang, Denis
+Ward 16 | Burnside, Jon
+Ward 16 | Erdemir, Sinan
+Ward 16 | Moffat, Didi | Yes | Yes | Yes | Yes | Yes | Yes | Cycling in Don Valley East and across Toronto should be safe, practical, and connected—not an afterthought or a source of neighborhood division. Over the next term, my plan centers on three key priorities: closing critical network gaps, ensuring road safety for all users, and protecting community consultation.\n\nFirst, we must connect suburban wards like Don Valley East to the broader cycling network. Too many bike lanes in Toronto simply end abruptly, forcing riders into high-speed mixed traffic on major arterials like Don Mills Road or Lawrence Avenue East. I will prioritize closing the missing links between our residential pockets, the future Ontario Line transit hubs, and our world-class ravine trail network, including the Don Valley and Betty Sutherland trails. Cyclists should be able to safely reach transit stations, local schools, and shopping hubs without risking their lives.\n\nSecond, I will champion physically protected infrastructure where it makes sense, rather than relying on painted lines that offer zero real protection. On wide, fast arterial corridors, physical separation protects cyclists, gives drivers predictability, and significantly reduces sidewalk riding, which remains a major safety complaint for local seniors and pedestrians.\n\nThird, we need balanced, transparent implementation. Bike lane rollouts must involve genuine consultation with local residents, accessibility advocates, and small business owners. New installations cannot come at the expense of emergency vehicle response times or severe bus transit delays. We must ensure smart curb management, dedicated delivery zones, and winter maintenance so that cycle tracks are actually usable year-round.\n\nCycling is not just recreation; it is an affordable, zero-emission commuting option and a vital piece of our city’s transit puzzle. By focusing on smart connections, real physical safety, and respectful local planning, we can make cycling viable for everyone from eight-year-olds to seniors.
+Ward 16 | Moffatt, Stacey
+Ward 17 | Adamson, Jeffery | Yes | Yes | Abstain | Yes | Yes | I intend to make cycling as important to Toronto transportation system as the TTC. This means creating innovative solutions for cycling. I will advocate for investments into new routes and maintaining existing routes.
+Ward 17 | Carroll, Shelley | Yes | Yes | No | Yes | Yes | I want Don Valley North to have safer, more connected options for getting around, which includes better cycling infrastructure. I would build on the Cycling Network Plan by identifying practical opportunities for new and improved bike routes in our neighbourhoods, particularly where they can connect residents to transit, schools, parks and local destinations. Any changes should be designed with a focus on safety, clear road design and maintaining reliable access for all modes of transportation.
+Ward 17 | Kavod, Jethro Adir
+Ward 17 | Noor Mohamed, Hassan Mubarak
+Ward 17 | Samathanam, Roy
+Ward 17 | Xiao, Hong
+Ward 17 | Zuniga, Sabrina
+Ward 18 | Cheng, Lily
+Ward 18 | Daneshvar, Nicole
+Ward 18 | Magazzinich, David
+Ward 18 | Shakeri, Hamid
+Ward 18 | Yusifov, Nathan
+Ward 18 | Zarezade, Ardeshir
+Ward 19 | Ali, Syeda Jaana
+Ward 19 | Dann, James | Yes | Yes | Yes | Yes | Yes | As an avid Cycler, I plan on promoting safe and effective methods of increasing ridership in the city. This includes better advocacy, education, and signage. Riders should be safe on the road and the province should not intervene in municipal bike lanes.
+Ward 19 | Erskine-Smith, Nate | Yes | Yes | Yes | Yes | Yes | One small clarification re question 3: in my view, the highest priority should be to advance a complete and integrated network. Look forward to working together to deliver effective active transportation across Toronto.
+Ward 19 | Ibrahimi, Fatima
+Ward 19 | Johnson, Natalie
+Ward 19 | Morrison, Kevin | Yes | Yes | Yes | Yes | Yes | I am a cyclist, a driver, a walker and a transit user. I use what makes sense to me to get me where I am going.
+Ward 19 | Riedel, Karsten
+Ward 19 | Shabani, Mohammad
+Ward 19 | Smith, Adam | Yes | Yes | No | Yes | Yes | I am the only candidate in my ward who has a detailed plan to complete the bike network in Ward 19:  https://adamsmithward19.ca/platform/w19tn/
+Ward 19 | Vieira, Austin
+Ward 19 | Wahl, Jeff | Yes | Yes | Yes | Yes | Yes | Bike lane infrastructure is paramount to building a livable city. One where all of our roads can be safely navigated by vehicles, bikes and pedestrians. Simply put: Bike lanes save lives.
+Ward 19 | Wilkins, Devin
+Ward 19 | Worden, Jennie | Yes | Yes | Yes | Yes | Yes | While continuing to advocate with the Province for Toronto's right to govern its own roads, reinstate bike lanes on University, Bloor, and Yonge, and extend our cycling network according to the City's plan, I will also complete cycling connections in Beaches-East York and with neighbouring wards, including linking the Woodbine bike lane with the Martin Goodman Trail, connecting the Taylor Creek bike path to safely cross Victoria Park, and building a complete street on Kingston Road east of Victoria Park.
+Ward 20 | Choudhury, Laikul
+Ward 20 | Kaid, Naser
+Ward 20 | Kandavel, Parthi
+Ward 20 | Karokis, Ariel-Rachel
+Ward 20 | Lisciandro, Luigi
+Ward 20 | Nasrin, Sharmina
+Ward 20 | Reza, Mohammad Ali
+Ward 20 | Rupasinghe, Kevin | Yes | Yes | Yes | Yes | Yes | Yes | I will champion safe, healthy, and vibrant streets all over the city while working with local communities to find the best way to move projects forward in a way that makes sense for that area. With infrastructure, education, regulation, and enforcement, we can give everyone more travel options for work, school, errands, or leisure. Everyone deserves to move around our city safely and efficiently, and make it home at the end of the day.
+Ward 21 | Ahmed, Taiba | Yes | Yes | Yes | Yes | Yes | Yes | Over the next term, I intend to build a stronger relationship with Scarborough Centre’s cycling community to better understand their needs and ensure their concerns are represented at City Hall.\nI recognize that cycling is more than a recreational activity. For many residents, it is an affordable means of transportation, a way to stay active, and an alternative to driving. However, I also recognize that cyclists have different needs depending on their neighbourhoods, daily commutes, and existing infrastructure.\nMy priority would be to establish ongoing communication with local cyclists, advocacy groups, and residents who are interested in cycling but may not feel safe doing so. I want to hear directly from them about which intersections need improvement, where cycling infrastructure is missing, and how we can better connect neighbourhoods to transit stations, parks, schools, and local businesses.\nI also intend to explore opportunities to improve bicycle parking and connections between cycling routes and public transit, making it easier for residents to combine different forms of transportation.\nRather than making infrastructure commitments without community consultation, I want to work alongside residents to identify practical improvements and advocate for them through the City's transportation planning and budgeting processes.\nUltimately, my goal is to ensure that Scarborough Centre's cycling community has a consistent voice at City Hall and that future investments reflect resident's needs while making our neighbourhoods safer and more accessible and safe for everyone.
+Ward 21 | Barahmand, Bahareh
+Ward 21 | Evbagharu, Patience
+Ward 21 | Ganesh, Uthish
+Ward 21 | Kargiannakis, Stella
+Ward 21 | Lalla, Akina
+Ward 21 | Nisha Kumari,
+Ward 21 | Reodica, Willie
+Ward 21 | Shanmugaratnam, Madura
+Ward 21 | Thompson, Michael
+Ward 21 | Veerasingam, Krissan | Yes | Yes | Yes | Yes | Yes | Yes | As someone who cycles to many of my canvasses, I will work to expand the Meadoway network and build more safe north-south connections that link neighbourhoods to schools, parks, transit and local businesses.
+Ward 22 | Azad, Madhuri
+Ward 22 | Chan, Bill
+Ward 22 | Ho, Jackson | Yes | Yes | Yes | Yes | Yes | I want to regulate electric mopeds, motorcycles and scooters, just because they have pedals and are electric, they are not meant to be on a bike lane.
+Ward 22 | Khatchadourian, Serge | Yes | Yes | Yes | Yes | Yes | There needs to be a balance between pedestrians, cars and bike riders, safety has to be looked at collectively.
+Ward 22 | Kotecha, Rakhee | No | No | No | Yes | Yes | I support bike lanes but not on major arterial roads.
+Ward 22 | Lal, Aaron
+Ward 22 | Lovell, Dan | Yes | Yes | Yes | Yes | Yes | On top of these, I also seek to expand safe bike path networks separate from roadways.
+Ward 22 | Mantas, Nick
+Ward 22 | Morgan, Donny
+Ward 22 | Vijayarajan, Sindia
+Ward 23 | Chen, Shaun
+Ward 23 | Dong, Han
+Ward 23 | Javed, Sajawal
+Ward 23 | Li, Kevin
+Ward 23 | Myers, Jamaal
+Ward 23 | Oleh, John-Mark
+Ward 23 | Phen, Ronald
+Ward 23 | Sathiyanantham, Piravena
+Ward 24 | Ainslie, Paul
+Ward 24 | Bazil, Robert
+Ward 24 | Mulamalla, Jithender | Yes | Yes | Yes | Yes | Yes | First, we must accelerate the expansion of protected cycling infrastructure across our communities. Paint on a road is simply not enough to keep cyclists safe. I intend to prioritize physical separation—such as concrete bollards, permanent planters, and raised curbs—on major corridors and high-injury networks. By closing critical gaps in our existing network, we can ensure that cyclists can travel seamlessly across the entire city without being forced into dangerous mixing zones with heavy vehicular traffic.Second, I will advocate for equitable investment in active transportation. Every neighborhood deserves safe streets. I will work to ensure that infrastructure funding is distributed fairly, particularly targeting underserved communities where residents rely heavily on biking or walking to reach jobs, schools, local grocery stores, and essential medical services. This includes installing secure bike parking and charging stations at transit hubs and commercial districts to prevent theft and encourage multimodal commuting.Finally, we must foster a culture of shared responsibility and education. I support expanding community bike programs, supporting safe-routes-to-school initiatives for children, and implementing traffic-calming measures in residential zones. By lowering speed differentials on neighborhood streets, we make the entire road network safer for cyclists, pedestrians, and drivers alike.
+Ward 24 | Ramasamy, Nachi
+Ward 24 | Sivanandan, Arun
+Ward 24 | Wu, An
+Ward 25 | Allen, Shawn
+Ward 25 | Casinathen, Dharshan
+Ward 25 | Fernando, Ashan
+Ward 25 | Kaneshapillai, Somas
+Ward 25 | Lumley, Jannette | Abstain | Abstain | Abstain | Abstain | Abstain | I chose not to respond to all 5 questions with a yes o no answer,  because of the safety of everyone involved on the roadways involved such as school buses, cars, trucks, delivery services etc.,    Residents or citizens of Toronto should be involved in the decision making process to give their point of view on these concerns. Therefore, citizens and residents throughout Toronto should be at the table to agree to make wise and informed decisions on matters like these.  I cannot pledge to something when I am not certain what I would agreeing or not agreeing to.  I would like to see a manual, rules or policy that is given, then  I would be able to make a wise and informed decision on any of the matters.  Also, persons with mobility issues who uses a wheelchair to get from point a to b should also be included in the lane way, not just bicycles.  Although there are designated bicycle lane ways cyclists are still getting hit, because of their erotic behaviour when it comes to being on the road way.
+Ward 25 | Patel, Zakir
+Ward 25 | Robinson, Dianna
+Ward 25 | S'ree Jr, Kannan
+Ward 25 | Shan, Neethan
+Ward 25 | Stavrev, Vane | Yes | Yes | Yes | Yes | Yes | I would advocate for cyclists at the Provincial level.  I would advocate for cyclists at City Hall.
+</script>
+
+<script>
+// ---------- Settings ----------
+
+// Dark mode is switched on or off at the very top of this file: data-dark-mode="off" or "on".
+
+const PLEDGES = {
+  'Preserve!':        'I pledge to fight to preserve the Council-approved protected bike lanes on Bloor, Yonge, and University.',
+  'Rebuild!':         'I pledge to rebuild any Council-approved protected bike lanes removed by the province once corresponding legislation is repealed or amended.',
+  'Upgrade!':         'I pledge to upgrade the existing network of “quick-build” bike lanes (pinned curbs and flexi-posts) to permanent materials like poured-in-place concrete.',
+  'Bike Share!':      'I pledge to champion Bike Share Toronto’s strategic growth plan towards 1M unique users and 14M trips, and advocate for One-Fare integration.',
+  'Safe & Passable!': 'I pledge to keep our bike lanes safe and passable year-round through consistent winter maintenance, enhanced construction zone safety for vulnerable road users, and taking action against vehicles parked or stopped in bike lanes.',
+  'High Park!':       'I pledge to continue advancing the High Park Movement Strategy, including designing away conflicts between road users with separated spaces and bypasses for cyclists, and establishing dedicated times for recreational cycling.',
+  'Eglinton!':        "I pledge to upgrade the existing painted bike lanes along Eglinton E to protected bike lanes under the city's existing authority, and implement both phases of the eglintonTOday Complete Street project once corresponding legislation is repealed or amended.",
+  'Reverse!':         'I pledge to reverse the decision to cancel the contra-flow bike lanes along Logan and Carlaw, and add protection to the existing painted bike lanes on Jones as approved in the 2024–2027 Cycling Network Plan.'
+};
+
+const MAIN_PLEDGES = ['Preserve!', 'Rebuild!', 'Upgrade!', 'Bike Share!', 'Safe & Passable!'];
+
+// The sixth, local pledge, by ward number
+const LOCAL_PLEDGES = {
+  4: 'High Park!',
+  5: 'Eglinton!', 8: 'Eglinton!', 9: 'Eglinton!', 12: 'Eglinton!',
+  14: 'Reverse!',
+  15: 'Eglinton!', 16: 'Eglinton!', 20: 'Eglinton!', 21: 'Eglinton!'
+};
+
+const WARD_NAMES = [
+  'Etobicoke North', 'Etobicoke Centre', 'Etobicoke–Lakeshore', 'Parkdale–High Park',
+  'York South–Weston', 'York Centre', 'Humber River–Black Creek', 'Eglinton–Lawrence',
+  'Davenport', 'Spadina–Fort York', 'University–Rosedale', 'Toronto–St. Paul’s',
+  'Toronto Centre', 'Toronto–Danforth', 'Don Valley West', 'Don Valley East',
+  'Don Valley North', 'Willowdale', 'Beaches–East York', 'Scarborough Southwest',
+  'Scarborough Centre', 'Scarborough–Agincourt', 'Scarborough North',
+  'Scarborough–Guildwood', 'Scarborough–Rouge Park'
+];
+
+
+// ---------- Helpers ----------
+
+const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const isPhone = () => matchMedia('(max-width: 760px)').matches;
+const firstLast = name => {
+  const [last, first = ''] = name.split(',').map(s => s.trim());
+  return first ? `${first} ${last}` : last;
+};
+
+const ANSWER_WORDS = { yes: 'Yes', y: 'Yes', no: 'No', n: 'No', abstain: 'Abstain', skip: 'Abstain', 'i choose not to respond': 'Abstain', '': '' };
+const ANSWER_FULL = { Yes: 'Yes', No: 'No', Abstain: 'I choose not to respond' };
+const ANSWER_KEY_HTML =
+  'Candidates could answer each pledge “Yes,” “No,” or “I choose not to respond,” shown as:' +
+  '<ul>' + ['Yes', 'No', 'Abstain'].map(a => `<li>${chip(a)}</li>`).join('') + '</ul>';
+
+function chip(answer, text = answer) {
+  return `<span class="chip chip-${answer.toLowerCase()}">${escapeHtml(text)}</span>`;
+}
+
+
+// ---------- Read the candidate data ----------
+
+function buildRaces() {
+  const races = [{ id: 'mayor', title: 'Mayor', area: 'City of Toronto', pledges: MAIN_PLEDGES, people: [] }];
+  WARD_NAMES.forEach((area, i) => {
+    const n = i + 1;
+    const pledges = LOCAL_PLEDGES[n] ? [...MAIN_PLEDGES, LOCAL_PLEDGES[n]] : MAIN_PLEDGES;
+    const nn = String(n).padStart(2, '0');
+    races.push({ id: 'ward' + nn, title: 'Ward ' + nn, area, pledges, people: [] });
+  });
+  return races;
+}
+
+function readCandidateData(races) {
+  const byKey = {};
+  races.forEach(r => { byKey[r.id === 'mayor' ? 'mayor' : 'ward' + parseInt(r.id.slice(4), 10)] = r; });
+
+  const warnings = [];
+  const notes = [];
+  let updated = '';
+  const text = document.getElementById('candidate-data').textContent.replace(/<\\\//g, '</');
+
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    const quoted = '“' + (line.length > 60 ? line.slice(0, 60) + '…' : line) + '”';
+    if (!line || line.startsWith('#')) continue;
+
+    if (/^updated\s*:/i.test(line)) { updated = line.replace(/^updated\s*:/i, '').trim(); continue; }
+    if (/^note\s*:/i.test(line)) {
+      const note = line.replace(/^note\s*:/i, '').trim();
+      if (note) notes.push(note);
+      continue;
+    }
+
+    const fields = line.split('|').map(s => s.trim());
+    const raceKey = fields[0].toLowerCase().replace(/\s+/g, '');
+    const ward = raceKey.match(/^ward0*(\d{1,2})$/);
+    const race = raceKey === 'mayor' ? byKey.mayor : ward ? byKey['ward' + parseInt(ward[1], 10)] : null;
+    const name = fields[1];
+
+    if (!race) { warnings.push(`Unknown race “${fields[0]}” in ${quoted}`); continue; }
+    if (!name) { warnings.push(`Missing candidate name in ${quoted}`); continue; }
+
+    const answers = race.pledges.map((_, i) => {
+      const given = fields[2 + i] || '';
+      const word = given.toLowerCase().replace(/[“”"’']/g, '').replace(/\s+/g, ' ').trim();
+      if (word in ANSWER_WORDS) return ANSWER_WORDS[word];
+      warnings.push(`${name}: “${given}” isn’t Yes, No or Abstain (left blank)`);
+      return '';
+    });
+    const comment = fields.slice(2 + race.pledges.length).join(' | ').replace(/\\n/g, '\n').trim();
+
+    race.people.push({ name, answers, comment, responded: answers.some(Boolean) });
+  }
+
+  // Responders first, then alphabetical by last name
+  for (const race of races) {
+    race.people.sort((a, b) => (b.responded - a.responded) || a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+  }
+  return { warnings, notes, updated };
+}
+
+
+// ---------- Page text ----------
+
+function showFooterInfo({ updated, notes, warnings }) {
+  document.getElementById('last-updated').textContent = updated;
+
+  if (notes.length) {
+    const box = document.getElementById('recent-changes');
+    box.innerHTML = '<p>Recent changes</p><ul>' + notes.map(n => `<li>${escapeHtml(n)}</li>`).join('') + '</ul>';
+    box.hidden = false;
+  }
+
+  if (warnings.length) {
+    const box = document.getElementById('data-warning');
+    box.innerHTML = '<strong>Some candidate data couldn’t be read:</strong><ul>' +
+      warnings.map(w => `<li>${escapeHtml(w)}</li>`).join('') + '</ul>';
+    box.hidden = false;
+    console.warn('Candidate data:', warnings);
+  }
+}
+
+function showAllQuestions() {
+  const wardsByPledge = {};
+  for (const [ward, pledge] of Object.entries(LOCAL_PLEDGES)) {
+    (wardsByPledge[pledge] = wardsByPledge[pledge] || []).push(Number(ward));
+  }
+  const describeWards = wards => {
+    wards.sort((a, b) => a - b);
+    return wards.length === 1 ? `Ward ${wards[0]}` : `Wards ${wards.slice(0, -1).join(', ')} and ${wards[wards.length - 1]}`;
+  };
+  const localPledges = Object.keys(wardsByPledge)
+    .sort((a, b) => Math.min(...wardsByPledge[a]) - Math.min(...wardsByPledge[b]));
+
+  const items = [
+    ...MAIN_PLEDGES.map(p => [p, 'All races']),
+    ...localPledges.map(p => [p, describeWards(wardsByPledge[p])])
+  ];
+
+  document.querySelector('.questions-all .answer-key').innerHTML = ANSWER_KEY_HTML;
+  document.getElementById('all-questions-list').innerHTML = items.map(([pledge, where]) =>
+    `<li><span class="pledge-name">${escapeHtml(pledge)}<span class="pledge-where">${escapeHtml(where)}</span></span>${escapeHtml(PLEDGES[pledge])}</li>`
+  ).join('');
+}
+
+
+// ---------- Build the races ----------
+
+let commentId = 0;
+
+// On phone cards only "Safe & Passable!" may wrap onto two lines
+const cardLabel = pledge => pledge === 'Safe & Passable!' ? pledge : pledge.replace(/ /g, '\u00a0');
+
+function renderCandidate(race, person) {
+  const id = 'comment-' + (commentId++);
+  const toggle = person.comment
+    ? `<button type="button" class="comment-toggle" aria-expanded="false" aria-controls="${id}" data-open-label="${escapeHtml(firstLast(person.name))} commented"><span>Comments</span></button>`
+    : '';
+  const name = escapeHtml(person.name) + toggle;
+  const phoneToggle = toggle && person.responded ? `<td class="comment-link">${toggle}</td>` : '';
+
+  const cells = person.responded
+    ? person.answers.map((answer, i) => {
+        const attrs = `data-pledge="${i}" data-label="${escapeHtml(cardLabel(race.pledges[i]))}"`;
+        return answer
+          ? `<td ${attrs}>${chip(answer)}</td>`
+          : `<td class="no-answer" ${attrs} aria-label="No answer">—</td>`;
+      }).join('')
+    : `<td class="no-response" colspan="${race.pledges.length}"><span>No response</span></td>`;
+
+  const classes = ['candidate', person.responded ? '' : 'no-reply', person.comment ? 'has-comment' : ''].filter(Boolean).join(' ');
+  const commentRow = person.comment
+    ? `<tr class="comment" id="${id}" hidden><td colspan="${race.pledges.length + 1}"><div class="comment-box"><p>${escapeHtml(person.comment)}</p></div></td></tr>`
+    : '';
+
+  return `<tr class="${classes}" data-name="${escapeHtml(person.name)}"><td>${name}</td>${cells}${phoneToggle}</tr>${commentRow}`;
+}
+
+function countHtml(responded, total) {
+  return `<b>${responded}</b> of <span class="count-total">${total}</span> responded`;
+}
+
+function renderRace(race) {
+  const responded = race.people.filter(p => p.responded).length;
+  const total = race.people.length;
+  const headings = race.pledges.map((p, i) =>
+    `<th scope="col"><button type="button" class="pledge-heading" data-pledge="${i}" aria-haspopup="dialog">${escapeHtml(p)}</button></th>`
+  ).join('');
+  const rows = race.people.map(person => renderCandidate(race, person)).join('') ||
+    `<tr><td class="no-candidates" colspan="${race.pledges.length + 1}">No candidates listed yet.</td></tr>`;
+
+  const el = document.createElement('details');
+  el.id = race.id;
+  el.dataset.responded = responded;
+  el.dataset.total = total;
+  el.innerHTML = `
+    <summary>
+      <span class="race-name">${escapeHtml(race.title)}<span class="race-area">${escapeHtml(race.area)}</span></span>
+      <span class="count">${countHtml(responded, total)}</span>
+    </summary>
+    <div class="race-body">
+      <p class="race-empty" hidden></p>
+      <div class="race-table">
+        <table>
+          <thead><tr><th scope="col">Candidate</th>${headings}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  return el;
+}
+
+
+// ---------- Start up ----------
+
+const RACES = buildRaces();
+const data = readCandidateData(RACES);
+const racesEl = document.getElementById('races');
+
+showFooterInfo(data);
+showAllQuestions();
+RACES.forEach(race => racesEl.appendChild(renderRace(race)));
+const raceEls = [...racesEl.children];
+
+const totalCandidates = RACES.reduce((sum, r) => sum + r.people.length, 0);
+const totalResponded = RACES.reduce((sum, r) => sum + r.people.filter(p => p.responded).length, 0);
+document.getElementById('response-count').innerHTML =
+  `<strong>${totalResponded}</strong> of ${totalCandidates} candidates across ${RACES.length} races have responded to Cycle Toronto’s questionnaire.`;
+
+
+// ---------- All Candidates / Responded Only ----------
+
+const viewButtons = document.querySelectorAll('.view-switch button');
+
+function setView(view) {
+  const respondedOnly = view === 'responded';
+  racesEl.classList.toggle('responded-only', respondedOnly);
+  viewButtons.forEach(b => b.setAttribute('aria-checked', b.dataset.view === view));
+
+  for (const el of raceEls) {
+    const empty = respondedOnly && el.dataset.responded === '0';
+    const message = el.querySelector('.race-empty');
+    message.hidden = !empty;
+    message.textContent = empty ? 'No candidates in this race have responded yet.' : '';
+    el.querySelector('.race-table').hidden = empty;
+  }
+}
+
+viewButtons.forEach(button => button.addEventListener('click', () => {
+  // Keep the clicked button in the same place on screen while the list changes length
+  const before = button.getBoundingClientRect().top;
+  setView(button.dataset.view);
+  scrollBy(0, button.getBoundingClientRect().top - before);
+}));
+
+document.querySelectorAll('.view-switch').forEach(group => group.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const buttons = [...group.querySelectorAll('button')];
+  const i = buttons.indexOf(document.activeElement);
+  const next = buttons[(i + (e.key === 'ArrowRight' ? 1 : buttons.length - 1)) % buttons.length];
+  next.focus();
+  next.click();
+  e.preventDefault();
+}));
+
+
+// ---------- Opening races ----------
+
+// Put the open race in the address bar (…#ward14). Some embeds block this, so ignore errors.
+function setHash(id) {
+  try { history.replaceState(null, '', id ? '#' + id : location.href.split('#')[0]); } catch (e) {}
+}
+
+raceEls.forEach(el => el.addEventListener('toggle', () => {
+  if (!el.open) {
+    if (location.hash === '#' + el.id) setHash('');
+    return;
+  }
+  setHash(el.id);
+  raceEls.forEach(other => { if (other !== el && other.open) other.open = false; });
+}));
+
+// Clicking a race: close the old one and open the new one together, keep the clicked
+// header still, then glide it to the top of the screen.
+racesEl.addEventListener('click', e => {
+  const summary = e.target.closest('#races > details > summary');
+  if (!summary) return;
+  e.preventDefault();
+
+  const el = summary.parentElement;
+  const opening = !el.open;
+  const before = summary.getBoundingClientRect().top;
+
+  raceEls.forEach(other => { if (other !== el && other.open) other.open = false; });
+  el.open = opening;
+  scrollBy(0, summary.getBoundingClientRect().top - before);
+
+  if (opening) requestAnimationFrame(() => el.scrollIntoView({ block: 'start', behavior: 'smooth' }));
+});
+
+function openFromHash() {
+  const el = location.hash && document.getElementById(location.hash.slice(1));
+  if (!el || el.parentElement !== racesEl) return;
+  el.open = true;
+  requestAnimationFrame(() => el.scrollIntoView({ block: 'start' }));
+}
+
+openFromHash();
+addEventListener('hashchange', openFromHash);
+
+
+// ---------- Comments ----------
+
+// Closed: "Comments". Open: "Jackson Ho commented".
+function setComment(id, open) {
+  document.getElementById(id).hidden = !open;
+  racesEl.querySelectorAll(`.comment-toggle[aria-controls="${id}"]`).forEach(button => {
+    button.setAttribute('aria-expanded', open);
+    button.firstElementChild.textContent = open ? button.dataset.openLabel : 'Comments';
+  });
+}
+
+racesEl.addEventListener('click', e => {
+  // Tapping an open comment closes it (unless the reader is selecting text)
+  const box = e.target.closest('.comment-box');
+  if (box && !String(getSelection())) { setComment(box.closest('.comment').id, false); return; }
+
+  const toggle = e.target.closest('.comment-toggle');
+  if (!toggle) return;
+  setComment(toggle.getAttribute('aria-controls'), toggle.getAttribute('aria-expanded') !== 'true');
+});
+
+
+// ---------- Pledge pop-up ----------
+
+const popup = document.createElement('div');
+popup.id = 'pledge-popup';
+popup.setAttribute('role', 'dialog');
+popup.hidden = true;
+document.body.appendChild(popup);
+
+const backdrop = document.createElement('div');
+backdrop.id = 'pledge-backdrop';
+backdrop.hidden = true;
+document.body.appendChild(backdrop);
+
+let popupSource = null;
+let popupScrollY = 0;
+let popupWidth = innerWidth;
+
+function closePopup() {
+  if (popupSource) {
+    popupSource.setAttribute('aria-expanded', 'false');
+    popupSource = null;
+  }
+  if (!popup.classList.contains('as-sheet')) { popup.hidden = true; return; }
+
+  // Slide the sheet down, then hide it
+  popup.classList.remove('is-visible');
+  backdrop.classList.remove('is-visible');
+  setTimeout(() => {
+    if (popupSource) return;  // reopened in the meantime
+    popup.hidden = true;
+    backdrop.hidden = true;
+    popup.classList.remove('as-sheet');
+  }, 220);
+}
+
+// Phones: a panel along the bottom of the screen, nudging the page up if it would cover what was tapped
+function showAsSheet(source) {
+  popup.classList.add('as-sheet');
+  popup.style.left = popup.style.top = '';
+  backdrop.hidden = false;
+  requestAnimationFrame(() => {
+    popup.classList.add('is-visible');
+    backdrop.classList.add('is-visible');
+    const hidden = source.getBoundingClientRect().bottom - (innerHeight - popup.offsetHeight - 12);
+    if (hidden > 0) scrollBy({ top: hidden, behavior: 'smooth' });
+  });
+}
+
+// Desktop: a small pop-up under what was clicked, flipped above if there's no room below
+function showAsPopup(source) {
+  popup.classList.remove('as-sheet', 'is-visible');
+  const r = source.getBoundingClientRect();
+  const width = popup.offsetWidth;
+  const pageWidth = document.documentElement.clientWidth;
+  const left = Math.max(12, Math.min(r.left + r.width / 2 - width / 2, pageWidth - width - 12));
+  const fitsBelow = r.bottom + popup.offsetHeight + 12 <= innerHeight || r.top <= popup.offsetHeight + 12;
+  const top = fitsBelow ? r.bottom + 6 : r.top - popup.offsetHeight - 6;
+  popup.style.left = (left + scrollX) + 'px';
+  popup.style.top = (top + scrollY) + 'px';
+  popupScrollY = scrollY;
+}
+
+function openPopup(source) {
+  const race = RACES[raceEls.indexOf(source.closest('#races > details'))];
+  const pledge = race.pledges[Number(source.dataset.pledge)];
+
+  let answerHtml = '';
+  const row = source.closest('.candidate');
+  if (row) {
+    const chipEl = source.querySelector('.chip');
+    const answer = chipEl ? chipEl.textContent.trim() : '';
+    const shown = answer ? chip(answer, ANSWER_FULL[answer]) : '<em>No answer given</em>';
+    answerHtml = `<div class="popup-answer"><strong>${escapeHtml(firstLast(row.dataset.name))} responded:</strong> ${shown}</div>`;
+  }
+
+  popup.innerHTML = `<button type="button" class="popup-close" aria-label="Close">×</button>` +
+    `<span class="popup-title">${escapeHtml(pledge)}</span>${escapeHtml(PLEDGES[pledge])}${answerHtml}`;
+  popup.setAttribute('aria-label', pledge);
+  popup.hidden = false;
+
+  if (popupSource && popupSource !== source) popupSource.setAttribute('aria-expanded', 'false');
+  popupSource = source;
+  source.setAttribute('aria-expanded', 'true');
+
+  popupWidth = innerWidth;
+  if (isPhone()) showAsSheet(source);
+  else showAsPopup(source);
+}
+
+racesEl.addEventListener('click', e => {
+  const source = e.target.closest('.pledge-heading') || e.target.closest('td[data-pledge]');
+  if (!source) return;
+  e.stopPropagation();
+  if (popupSource === source && !popup.hidden) closePopup();
+  else openPopup(source);
+});
+
+// Tapping anywhere on the pop-up closes it (unless the reader is selecting text)
+popup.addEventListener('click', e => {
+  e.stopPropagation();
+  if (e.target.closest('.popup-close') || !String(getSelection())) closePopup();
+});
+
+document.addEventListener('click', () => { if (!popup.hidden) closePopup(); });
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape' || popup.hidden) return;
+  const source = popupSource;
+  closePopup();
+  if (source) source.focus();
+});
+
+// The desktop pop-up closes when the page scrolls away from it; the phone panel stays put
+addEventListener('scroll', () => {
+  if (!popup.hidden && !popup.classList.contains('as-sheet') && Math.abs(scrollY - popupScrollY) > 40) closePopup();
+}, { passive: true });
+
+// Phones resize as the address bar hides and shows, so only close when the width changes
+addEventListener('resize', () => {
+  if (!popup.hidden && innerWidth !== popupWidth) closePopup();
+});
+
+// Swipe the phone panel down to close it
+let swipeStartY = null;
+popup.addEventListener('touchstart', e => {
+  if (popup.classList.contains('as-sheet') && popup.scrollTop === 0) swipeStartY = e.touches[0].clientY;
+}, { passive: true });
+popup.addEventListener('touchmove', e => {
+  if (swipeStartY === null) return;
+  const distance = e.touches[0].clientY - swipeStartY;
+  popup.style.transform = distance > 0 ? `translateY(${distance}px)` : '';
+}, { passive: true });
+popup.addEventListener('touchend', e => {
+  if (swipeStartY === null) return;
+  const distance = e.changedTouches[0].clientY - swipeStartY;
+  swipeStartY = null;
+  popup.style.transform = '';
+  if (distance > 60) closePopup();
+});
+
+
+// ---------- Search ----------
+
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+const normalize = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  .replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+const searchIndex = [];
+raceEls.forEach((el, i) => {
+  const race = RACES[i];
+  el.querySelectorAll('.candidate').forEach(row => {
+    const [last, first = ''] = row.dataset.name.split(',').map(s => s.trim());
+    searchIndex.push({
+      label: firstLast(row.dataset.name),
+      race: `${race.title} · ${race.area}`,
+      words: normalize(`${first} ${last}`).split(' '),
+      raceEl: el,
+      row
+    });
+  });
+});
+
+let matches = [];
+let selected = -1;
+let focusScrollTimer;
+
+function highlight(label, terms) {
+  let html = escapeHtml(label);
+  for (const term of terms) {
+    const safe = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    html = html.replace(new RegExp(`(${safe})`, 'i'), '<mark>$1</mark>');
+  }
+  return html;
+}
+
+function hideResults() {
+  searchResults.hidden = true;
+  searchInput.setAttribute('aria-expanded', 'false');
+}
+
+function showResults() {
+  const query = normalize(searchInput.value);
+  if (query.length < 2) { matches = []; hideResults(); return; }
+
+  const terms = query.split(' ');
+  matches = searchIndex
+    .filter(entry => terms.every(t => entry.words.some(w => w.startsWith(t))))
+    .slice(0, 10);
+  selected = matches.length ? 0 : -1;
+
+  searchResults.innerHTML = matches.length
+    ? matches.map((m, i) =>
+        `<li role="option" id="result-${i}" aria-selected="${i === selected}"><span>${highlight(m.label, terms)}</span><span class="result-race">${escapeHtml(m.race)}</span></li>`
+      ).join('')
+    : '<li class="no-match" role="option" aria-disabled="true">No matches</li>';
+
+  searchResults.hidden = false;
+  searchInput.setAttribute('aria-expanded', 'true');
+  searchInput.setAttribute('aria-activedescendant', selected >= 0 ? 'result-0' : '');
+}
+
+function selectResult(i) {
+  selected = i;
+  searchResults.querySelectorAll('li[role="option"]').forEach((li, k) => li.setAttribute('aria-selected', k === i));
+  searchInput.setAttribute('aria-activedescendant', 'result-' + i);
+  const item = searchResults.children[i];
+  if (item) item.scrollIntoView({ block: 'nearest' });
+}
+
+function goToCandidate(match) {
+  hideResults();
+  clearTimeout(focusScrollTimer);
+  searchInput.blur();  // closes the phone keyboard before we measure
+
+  if (getComputedStyle(match.row).display === 'none') setView('all');
+  match.raceEl.open = true;
+
+  const centre = () => match.row.scrollIntoView({ block: 'center' });
+  requestAnimationFrame(() => {
+    centre();
+    racesEl.querySelectorAll('.is-found').forEach(r => r.classList.remove('is-found'));
+    void match.row.offsetWidth;  // restart the highlight animation
+    match.row.classList.add('is-found');
+    setTimeout(centre, 350);  // again once the keyboard has closed
+  });
+}
+
+searchInput.addEventListener('input', showResults);
+
+searchInput.addEventListener('focus', () => {
+  if (isPhone()) {
+    focusScrollTimer = setTimeout(() => searchInput.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+  }
+  if (searchInput.value) showResults();
+});
+
+searchInput.addEventListener('keydown', e => {
+  if (searchResults.hidden && e.key === 'ArrowDown') { showResults(); return; }
+  if (e.key === 'ArrowDown' && matches.length) {
+    e.preventDefault();
+    selectResult((selected + 1) % matches.length);
+  } else if (e.key === 'ArrowUp' && matches.length) {
+    e.preventDefault();
+    selectResult((selected - 1 + matches.length) % matches.length);
+  } else if (e.key === 'Enter' && selected >= 0) {
+    e.preventDefault();
+    goToCandidate(matches[selected]);
+  } else if (e.key === 'Escape') {
+    hideResults();
+  }
+});
+
+searchResults.addEventListener('mousedown', e => {
+  const li = e.target.closest('li[role="option"]');
+  if (!li || li.classList.contains('no-match')) return;
+  e.preventDefault();
+  goToCandidate(matches[[...searchResults.children].indexOf(li)]);
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search')) hideResults();
+});
+</script>
+</body>
+</html>
